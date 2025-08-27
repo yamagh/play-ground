@@ -17,6 +17,9 @@ for (const relativePath of glob.globSync('./app/assets/svelte/**/*.svelte')) {
   entry[key] = [
     // See why we need reload=true for Svelte 5: https://github.com/sveltejs/svelte-loader/issues/250
     "webpack-hot-middleware/client?path=http://localhost:9001/__webpack_hmr&timeout=5000&reload=true",
+    "bootstrap/dist/css/bootstrap.css",
+    "bootstrap/dist/js/bootstrap.bundle.js",
+    "bootstrap-icons/font/bootstrap-icons.css",
     "./public/stylesheets/tailwindbase.css",
     `./${relativePath}`
   ]
@@ -81,7 +84,6 @@ const config = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -92,6 +94,13 @@ const config = {
           },
           'postcss-loader'
         ],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[hash][ext][query]'
+        }
       },
     ]
   },
@@ -106,8 +115,8 @@ const config = {
   },
   performance: {
     hints: 'error',
-    maxAssetSize: 2000000,
-    maxEntrypointSize: 2000000,
+    maxAssetSize: 20000000,
+    maxEntrypointSize: 20000000,
     assetFilter: function(assetFilename) {
       return assetFilename.endsWith('.js');
     }
@@ -128,7 +137,7 @@ module.exports = (env, argv) => {
     if (process.env.ENABLE_HMR) {
       console.log('Enable HMR')
       for (const rule of config.module.rules) {
-        if (rule.use.loader === 'svelte-loader') {
+        if (rule.use && rule.use.loader === 'svelte-loader') {
           rule.use.options.emitCss = false
           rule.use.options.compilerOptions.dev = true
           rule.use.options.hotReload = true
