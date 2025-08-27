@@ -12,6 +12,7 @@ lazy val root = (project in file("."))
     scalaVersion := "2.13.16",
     libraryDependencies ++= Seq(
       guice,
+      "com.h2database" % "h2" % "1.4.192",
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test,
     ),
     svelte / SvelteKeys.webpackBinary := {
