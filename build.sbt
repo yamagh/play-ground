@@ -7,7 +7,7 @@ version := "1.0-SNAPSHOT"
 val isWin = sys.props.get("os.name").exists(_.toLowerCase.contains("win"))
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayScala, SbtWeb, SbtSvelte, SbtPostcss)
+  .enablePlugins(PlayScala, SbtWeb, SbtSvelte, SbtPostcss, PlayEbean)
   .settings(
     scalaVersion := "2.13.16",
     libraryDependencies ++= Seq(

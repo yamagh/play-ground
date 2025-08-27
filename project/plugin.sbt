@@ -6,3 +6,4 @@ lazy val sbtPostcss = RootProject(uri("https://github.com/tanin47/sbt-postcss.gi
 addSbtPlugin("com.github.sbt" % "sbt-digest" % "2.1.0")
 addSbtPlugin("org.playframework" % "sbt-plugin" % "3.0.7")
 addSbtPlugin("org.scalameta"     % "sbt-scalafmt" % "2.0.0")
+addSbtPlugin("org.playframework" % "sbt-play-ebean" % "8.3.0")
