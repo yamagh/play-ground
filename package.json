@@ -37,6 +37,8 @@
     "hmr": "NODE_PATH=./node_modules ENABLE_HMR=true node hmr.js"
   },
   "dependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1",
     "cors": "2.8.5"
   }
 }
