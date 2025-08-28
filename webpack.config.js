@@ -102,8 +102,19 @@ const config = {
           filename: 'fonts/[hash][ext][query]'
         }
       },
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        }
+      }
     ]
   },
+  ignoreWarnings: [
+    {
+      module: /node_modules\/@sveltestrap\//,
+    }
+  ],
   plugins: [
     new MiniCssExtractPlugin(),
     new CamelCaseNamePlugin()
