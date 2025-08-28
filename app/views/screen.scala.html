@@ -1,0 +1,13 @@
+@(ScreenName: String)
+<script src='@routes.AssetsController.versioned(s"svelte/screens/${ScreenName}/page.js")'></script>
+<link rel="stylesheet" href='@routes.AssetsController.versioned(s"svelte/screens/${ScreenName}/page.css")'>
+
+<div id="app"></div>
+
+<script>
+  new Page.default({
+    target: document.getElementById('app'),
+    props: {
+    }
+  });
+</script>
