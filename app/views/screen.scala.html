@@ -1,6 +1,6 @@
-@(ScreenName: String)
-<script src='@routes.AssetsController.versioned(s"svelte/screens/${ScreenName}/page.js")'></script>
-<link rel="stylesheet" href='@routes.AssetsController.versioned(s"svelte/screens/${ScreenName}/page.css")'>
+@(screenName: String, request: play.mvc.Http.Request)
+<script src='@routes.AssetsController.versioned(s"svelte/screens/${screenName}/page.js")'></script>
+<link rel="stylesheet" href='@routes.AssetsController.versioned(s"svelte/screens/${screenName}/page.css")'>
 
 <div id="app"></div>
 
@@ -10,4 +10,5 @@
     props: {
     }
   });
+  window.csrf = "@play.filters.csrf.CSRF.getToken(request).map(_.value)"
 </script>

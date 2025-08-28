@@ -7,6 +7,6 @@ import play.mvc.Http;
 public class LoginController extends Controller {
  
   public Result index(Http.Request request) {
-    return ok(views.html.screen.render("login"));
+    return ok(views.html.screen.render("login", request));
   }
 }
