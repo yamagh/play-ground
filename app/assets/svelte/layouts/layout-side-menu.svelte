@@ -6,7 +6,6 @@
     DropdownMenu,
     DropdownToggle,
   } from '@sveltestrap/sveltestrap';
-  import{ slide } from 'svelte/transition'
 
   let {
     activeMenu = "Home",
