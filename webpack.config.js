@@ -59,7 +59,7 @@ const config = {
   stats: 'minimal',
   entry,
   resolve: {
-    extensions: ['.mjs', '.js', '.svelte'],
+    extensions: ['.mjs', '.js', '.svelte', '.ts'],
     mainFields: ['svelte', 'browser', 'module', 'main'],
     conditionNames: ['svelte', 'browser'],
     alias: {
@@ -69,6 +69,10 @@ const config = {
   },
   module: {
     rules: [
+      {
+        test: /\.ts$/,
+        loader: 'ts-loader'
+      },
       {
         test: /\.svelte(\.ts)?$/,
         use: {

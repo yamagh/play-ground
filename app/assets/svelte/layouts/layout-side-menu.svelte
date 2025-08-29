@@ -7,6 +7,7 @@
     DropdownToggle,
     Tooltip,
   } from '@sveltestrap/sveltestrap';
+  import { menuItemList } from '@/layouts/MenuItem';
 
   let {
     activeMenu = "Home",
@@ -14,34 +15,6 @@
     sidebarOpened = true,
     children = ()=>{}
   } = $props()
-
-  const menuItemList = [
-    {
-      label: "Home",
-      icon: "house-fill",
-      href: "#",
-    },
-    {
-      label: "Dashboard",
-      icon: "speedometer2",
-      href: "#",
-    },
-    {
-      label: "Orders",
-      icon: "table",
-      href: "#",
-    },
-    {
-      label: "Products",
-      icon: "grid",
-      href: "#",
-    },
-    {
-      label: "Customers",
-      icon: "person-circle",
-      href: "#",
-    },
-  ]
 </script>
 
 <div class="vw-100 shadow-sm border-bottom p-2 d-flex justify-content-between sticky-top bg-white align-items-center fs-5 position-fixed">
