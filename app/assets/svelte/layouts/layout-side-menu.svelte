@@ -51,7 +51,7 @@
         <div class="vr ms-3"></div>
       </span>
     {/if}
-    <Icon name="rocket-fill" class="mx-2"/>
+    <Icon name="rocket-fill" class="ms-3 me-2"/>
     <span>Sample Todo App</span>
   </div>
   <div class="me-5">
@@ -110,7 +110,7 @@
   transition: 0.1s ease;
 }
 .sidebar-closed {
-  width: 64px;
+  width: 66px;
   transition: 0.1s ease;
   a {
     font-size: 1.4rem;
