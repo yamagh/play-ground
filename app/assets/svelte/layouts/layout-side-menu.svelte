@@ -5,6 +5,7 @@
     DropdownItem,
     DropdownMenu,
     DropdownToggle,
+    Tooltip,
   } from '@sveltestrap/sveltestrap';
 
   let {
@@ -79,11 +80,9 @@
       {#each menuItemList as item }
         <li class="nav-item">
           <a
+            id="{item.label}-link"
             href="{item.href}"
             class="nav-link {item.label == activeMenu ? "active" : "link-dark"} {sidebarOpened ? "" : "py-3 border-bottom"}"
-            data-bs-toggle={sidebarOpened ? "" : "tooltip"}
-            data-bs-placement={sidebarOpened ? "" : "right"}
-            data-bs-title={sidebarOpened ? "" : item.label}
             aria-current="page"
           >
             <Icon name={item.icon}/>
@@ -91,6 +90,9 @@
               <span class="ms-2">{item.label}</span>
             {/if}
           </a>
+          {#if !sidebarOpened}
+            <Tooltip target={`${item.label}-link`} placement="right">{item.label}</Tooltip>
+          {/if}
         </li>
       {/each}
     </ul>
