@@ -97,7 +97,7 @@
       {/each}
     </ul>
   </div>
-  <div class="flex-grow-1 p-3 main-content">
+  <div class="flex-grow-1 main-content">
     {@render children()}
   </div>
 </div>
