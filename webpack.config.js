@@ -61,7 +61,11 @@ const config = {
   resolve: {
     extensions: ['.mjs', '.js', '.svelte'],
     mainFields: ['svelte', 'browser', 'module', 'main'],
-    conditionNames: ['svelte', 'browser']
+    conditionNames: ['svelte', 'browser'],
+    alias: {
+      '@': pathModule.resolve(__dirname, 'app/assets/svelte'),
+      'layouts': pathModule.resolve(__dirname, 'app/assets/svelte/layouts')
+    }
   },
   module: {
     rules: [
