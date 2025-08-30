@@ -2,7 +2,7 @@
 <script src='@routes.AssetsController.versioned(s"svelte/screens/${screenName}/Page.js")'></script>
 <link rel="stylesheet" href='@routes.AssetsController.versioned(s"svelte/screens/${screenName}/Page.css")'>
 
-<div id="app"></div>
+<div id="app" csrf="@play.filters.csrf.CSRF.getToken(request).map(_.value)"></div>
 
 <script>
   new Page.default({
@@ -10,5 +10,4 @@
     props: {
     }
   });
-  window.csrf = "@play.filters.csrf.CSRF.getToken(request).map(_.value)"
 </script>
