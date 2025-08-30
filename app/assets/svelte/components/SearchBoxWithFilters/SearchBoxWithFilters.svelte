@@ -3,11 +3,9 @@
 
   let {
     value = $bindable(),
-    href = "#",
     children = ()=>{},
     searchTooltip = "Search",
     filterTooltip = "Advanced search options",
-    searchLabel = "Search",
     width = 480,
   } = $props();
 
