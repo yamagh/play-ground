@@ -30,4 +30,9 @@ export const menuItemList: MenuItem[] = [
     icon: "person-circle",
     href: "#",
   },
+  {
+    label: "Tasks",
+    icon: "list-task",
+    href: "#",
+  },
 ]

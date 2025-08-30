@@ -1,0 +1,1 @@
+export { default as LayoutSideMenu } from './LayoutSideMenu.svelte'
