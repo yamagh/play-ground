@@ -1,5 +1,4 @@
-GET     /                            controllers.HomeController.index
-
+GET     /                           controllers.web.LoginController.index(request: Request)
 GET     /login                      controllers.web.LoginController.index(request: Request)
 
 GET     /tasks                      controllers.web.TaskController.index(request: Request)

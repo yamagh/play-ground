@@ -7,7 +7,7 @@
     <Card class="shadow p-3">
       <CardBody>
         <div class="mb-5 text-center" style:font-size=10rem>
-          <Icon name="person-fill-lock" class=text-gray-300/>
+          <Icon name="rocket" class=text-gray-300/>
         </div>
         <FormGroup floating label="Email">
           <Input type="email" placeholder="name@example.com" />
@@ -24,6 +24,6 @@
 
 <style>
   :global(body) {
-    background-color: var(--bs-primary-bg-subtle);
+    background-color: var(--bs-light);
   }
 </style>
