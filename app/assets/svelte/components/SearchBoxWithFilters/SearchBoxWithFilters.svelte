@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, ButtonGroup, Card, CardBody, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormGroup, Icon, Input, InputGroup, InputGroupText, Popover, Row, Tooltip } from "@sveltestrap/sveltestrap";
+  import { Button, Dropdown, DropdownMenu, Icon, Input, InputGroup, InputGroupText, Tooltip } from "@sveltestrap/sveltestrap";
 
   let {
     value = $bindable(),
