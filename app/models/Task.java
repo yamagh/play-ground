@@ -1,12 +1,13 @@
 package models;
 
-import io.ebean.Model;
 import io.ebean.Finder;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-@Entity 
+@Entity
 public class Task extends BaseModel {
 
   @Id
@@ -17,6 +18,10 @@ public class Task extends BaseModel {
   public String description;
 
   public String status;
+
+  @ManyToOne
+  @JoinColumn(name = "owner_id", insertable = false, updatable = false)
+  public AppUser owner;
 
   public Long ownerId;
 

@@ -16,7 +16,6 @@
   import { findTasks, type Task } from "./api";
 
   let title = "";
-  let description = "";
   let statuses: string[] = [];
   let tasks: Task[] = [];
   let filterIsOpen = false;
@@ -29,7 +28,7 @@
   });
 
   async function loadTasks() {
-    const result = await findTasks(page, perPage, { title, description, statuses });
+    const result = await findTasks(page, perPage, { title, statuses });
     if (result) {
       tasks = result.items;
       total = result.total;
@@ -49,7 +48,6 @@
 
   function handleClear() {
     title = "";
-    description = "";
     statuses = [];
   }
 </script>
@@ -62,10 +60,6 @@
           <Row class="mb-3">
             <Col xs=3><label for="task-title" class="col-form-label">Title</label></Col>
             <Col><Input id="task-title" bind:value={title} /></Col>
-          </Row>
-          <Row class="mb-3">
-            <Col xs=3><label for="task-description" class="col-form-label">Description</label></Col>
-            <Col><Input id="task-description" bind:value={description} /></Col>
           </Row>
           <Row>
             <Col xs=3><label for="status" class="col-sm-3 col-form-label">Status</label></Col>
@@ -95,8 +89,11 @@
       <tr>
         <th>ID</th>
         <th>Title</th>
-        <th>Description</th>
         <th>Status</th>
+        <th>Owner</th>
+        <th>Due Date</th>
+        <th>Priority</th>
+        <th>Created On</th>
       </tr>
       </thead>
       <tbody>
@@ -104,8 +101,11 @@
         <tr>
           <td>{task.id}</td>
           <td>{task.title}</td>
-          <td>{task.description}</td>
           <td>{task.status}</td>
+          <td>{task.ownerName}</td>
+          <td>{task.dueDate}</td>
+          <td>{task.priority}</td>
+          <td>{task.createdOn}</td>
         </tr>
       {/each}
       </tbody>

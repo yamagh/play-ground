@@ -3,6 +3,7 @@ package repository;
 import io.ebean.DB;
 import io.ebean.ExpressionList;
 import io.ebean.PagedList;
+import io.ebean.Query;
 import models.Task;
 
 import javax.inject.Inject;
@@ -19,19 +20,18 @@ public class TaskRepository {
         this.executionContext = executionContext;
     }
 
-    public CompletionStage<PagedList<Task>> find(int page, int perPage, String title, String description, List<String> statuses) {
+    public CompletionStage<PagedList<Task>> find(int page, int perPage, String title, List<String> statuses) {
         return supplyAsync(() -> {
-            ExpressionList<Task> where = DB.find(Task.class).where();
+            Query<Task> query = DB.find(Task.class);
+            ExpressionList<Task> where = query.where();
             if (title != null && !title.isEmpty()) {
                 where.ilike("title", "%" + title + "%");
-            }
-            if (description != null && !description.isEmpty()) {
-                where.ilike("description", "%" + description + "%");
             }
             if (statuses != null && !statuses.isEmpty()) {
                 where.in("status", statuses);
             }
-            return where
+            return query
+                .fetch("owner")
                 .setFirstRow((page - 1) * perPage)
                 .setMaxRows(perPage)
                 .findPagedList();
