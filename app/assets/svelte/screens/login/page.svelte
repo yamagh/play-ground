@@ -1,6 +1,9 @@
 <script lang="ts">
   import { Form } from "@/components";
   import { Button, Card, CardBody, FormGroup, Icon, Input } from "@sveltestrap/sveltestrap";
+
+  let email = "admin@invalid.com";
+  let password = "FFFFFF";
 </script>
 
 <div class="vh-100 d-flex justify-content-center align-items-center">
@@ -12,12 +15,12 @@
         </div>
         <Form action="/login">
           <FormGroup floating label="Email">
-            <Input type="email" placeholder="name@example.com" />
+            <Input name="email" type="email" placeholder="name@example.com" bind:value={email} autocomplete="on" />
           </FormGroup>
           <FormGroup floating label="Password" spacing=pb-4>
-            <Input type="password" placeholder="Password" />
+            <Input name="password" type="password" placeholder="Password" bind:value={password} />
           </FormGroup>
-          <Button color=primary block>Login</Button>
+          <Button type="submit" color=primary block>Login</Button>
         </Form>
         </CardBody>
       </Card>

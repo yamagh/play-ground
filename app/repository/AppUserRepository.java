@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
@@ -32,6 +33,10 @@ public class AppUserRepository {
                     }
                     return options;
                 });
+    }
+
+    public CompletionStage<Optional<AppUser>> findByEmail(String email) {
+        return supplyAsync(() -> DB.find(AppUser.class).where().eq("email", email).findOneOrEmpty(), executionContext);
     }
 
 }
