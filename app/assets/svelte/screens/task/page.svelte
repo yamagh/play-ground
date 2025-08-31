@@ -44,6 +44,12 @@
     page = 1;
     loadTasks();
   }
+
+  function handleClear() {
+    title = "";
+    description = "";
+    statuses = [];
+  }
 </script>
 
 <LayoutSideMenu activeMenu="Tasks">
@@ -72,6 +78,12 @@
               </ButtonGroup>
             </Col>
           </Row>
+          <div class="mt-3 text-right">
+            <Button color="" outline on:click={handleClear} type="button" size="sm">Clear</Button>
+            <Button color="primary" id="search" type="submit" size="sm" class="ms-2">
+              <Icon name="search" class="me-1"/> Search
+            </Button>
+          </div>
         </SearchBoxWithFilters>
         <Button color="primary" class="text-nowrap"><Icon name="plus-circle-fill" class="me-1"/> Add New Task</Button>
       </div>
