@@ -4,32 +4,42 @@
     Tooltip,
   } from '@sveltestrap/sveltestrap';
   import { menuItemList } from '@/layouts/MenuItem';
+  import { AppTitle } from '@/components';
 
   let {
     activeMenu = "Home",
     sidebarOpened = true,
+    showAppTitle = false,
   } = $props()
 </script>
 
-<div class="d-flex flex-column flex-shrink-0 bg-light border-end sidebar {sidebarOpened ? "sidebar-opened" : "sidebar-closed"} {sidebarOpened ? "p-3" : ''}">
+<div class="d-flex flex-column flex-shrink-0 bg-light border-end sidebar 
+            {sidebarOpened ? "sidebar-opened" : "sidebar-closed"} 
+            {sidebarOpened ? "px-3" : ''}"
+            >
   <ul class="nav nav-pills flex-column mb-auto {sidebarOpened ? "" : "nav-flush text-center"}">
     {#each menuItemList as item }
-      <li class="nav-item">
-        <a
-          id="{item.label}-link"
-          href="{item.href}"
-          class="nav-link {item.label == activeMenu ? "active" : "link-dark"} {sidebarOpened ? "" : "py-3 border-bottom"}"
-          aria-current="page"
-        >
-          <Icon name={item.icon}/>
-          {#if sidebarOpened}
-            <span class="ms-2">{item.label}</span>
+      {#if showAppTitle || !item.isAppTitle}
+        <li class="nav-item">
+          <a
+            id="{item.label}-link"
+            href="{item.href}"
+            class="nav-link {item.label == activeMenu ? "active" : "link-dark"} {sidebarOpened ? "" : "py-3 border-bottom"} {item.isAppTitle ? "fs-4 px-0" : ""}"
+            aria-current="page"
+          >
+            <Icon name={item.icon}/>
+            {#if sidebarOpened}
+              <span class="ms-2">{item.label}</span>
+            {/if}
+          </a>
+          {#if !sidebarOpened}
+            <Tooltip target={`${item.label}-link`} placement="right">{item.label}</Tooltip>
           {/if}
-        </a>
-        {#if !sidebarOpened}
-          <Tooltip target={`${item.label}-link`} placement="right">{item.label}</Tooltip>
+        </li>
+        {#if item.isAppTitle && sidebarOpened}
+          <hr class="mb-3">
         {/if}
-      </li>
+      {/if}
     {/each}
   </ul>
 </div>

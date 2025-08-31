@@ -2,9 +2,16 @@ type MenuItem = {
   label: string;
   icon: string;
   href: string;
+  isAppTitle?: boolean;
 }
 
 export const menuItemList: MenuItem[] = [
+  {
+    label: "Sample App",
+    icon: "rocket-fill",
+    href: "/",
+    isAppTitle: true,
+  },
   {
     label: "Home",
     icon: "house-fill",
@@ -33,6 +40,6 @@ export const menuItemList: MenuItem[] = [
   {
     label: "Tasks",
     icon: "list-task",
-    href: "#",
+    href: "/tasks",
   },
 ]

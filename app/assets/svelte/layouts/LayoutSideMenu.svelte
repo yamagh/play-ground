@@ -10,7 +10,7 @@
   } = $props()
 </script>
 
-<div class="vw-100 shadow-sm border-bottom p-2 d-flex justify-content-between sticky-top bg-white align-items-center fs-5 position-fixed">
+<div class="fixed-top shadow-sm border-bottom p-2 d-flex justify-content-between bg-white align-items-center fs-5">
   <div class="d-flex">
     {#if collapsibleMenu}
       <span class="ms-3">

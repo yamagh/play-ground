@@ -8,7 +8,7 @@
     Row,
     Table,
   } from "@sveltestrap/sveltestrap";
-  import LayoutSideMenu from '@/layouts/LayoutSideMenu.svelte';
+  import { LayoutSideMenu, LayoutSideMenu2 } from '@/layouts';
   import PageContainer from '@/layouts/PageContainer.svelte';
   import SearchBoxWithFilters from '@/components/SearchBoxWithFilters/SearchBoxWithFilters.svelte';
   import Pagination from '@/components/common/Pagination.svelte';
@@ -52,7 +52,7 @@
   }
 </script>
 
-<LayoutSideMenu activeMenu="Tasks">
+<LayoutSideMenu2 activeMenu="Tasks">
   <PageContainer title="Tasks" fluid={false}>
     {#snippet actions()}
       <div class="hstack gap-3">
@@ -115,7 +115,7 @@
 
     <Pagination {page} {total} {perPage} on:change={handlePageChange} />
   </PageContainer>
-</LayoutSideMenu>
+</LayoutSideMenu2>
 
 <style>
 </style>
