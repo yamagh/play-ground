@@ -21,7 +21,7 @@
 このプロジェクトで採用している主な技術は以下の通りです。
 
 -   **バックエンド**
-    -   [Play Framework 2.8 (Java)](https://www.playframework.com/)
+    -   [Play Framework 3 (Java)](https://www.playframework.com/)
     -   [Scala 2.13](https://www.scala-lang.org/) (ビルド定義)
     -   [sbt](https://www.scala-sbt.org/): ビルドツール
     -   [Ebean](https://ebean.io/): ORMフレームワーク
