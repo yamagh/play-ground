@@ -9,7 +9,12 @@
     "types": ["svelte"],
     "verbatimModuleSyntax": true,
     "paths": {
-      "@/*": ["./app/assets/svelte/*"]
+      "@/*": ["./app/assets/svelte/*"],
+      "@/components/*": ["./app/assets/svelte/components/*"],
+      "@/layouts/*": ["./app/assets/svelte/layouts/*"],
+      "@/screens/*": ["./app/assets/svelte/screens/*"],
+      "@/stores/*": ["./app/assets/svelte/stores/*"],
+      "@/utils/*": ["./app/assets/svelte/utils/*"],
     }
   },
   "include": ["./app/assets/svelte/**/*"],

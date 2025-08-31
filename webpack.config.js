@@ -64,7 +64,11 @@ const config = {
     conditionNames: ['svelte', 'browser'],
     alias: {
       '@': pathModule.resolve(__dirname, 'app/assets/svelte'),
-      'layouts': pathModule.resolve(__dirname, 'app/assets/svelte/layouts')
+      'components': pathModule.resolve(__dirname, 'app/assets/svelte/components'),
+      'layouts': pathModule.resolve(__dirname, 'app/assets/svelte/layouts'),
+      'screens': pathModule.resolve(__dirname, 'app/assets/svelte/screens'),
+      'stores': pathModule.resolve(__dirname, 'app/assets/svelte/stores'),
+      'utils': pathModule.resolve(__dirname, 'app/assets/svelte/utils'),
     }
   },
   module: {
