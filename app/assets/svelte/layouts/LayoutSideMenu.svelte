@@ -1,13 +1,10 @@
 <script lang="ts">
   import {
     Icon,
-    Dropdown,
-    DropdownItem,
-    DropdownMenu,
-    DropdownToggle,
     Tooltip,
   } from '@sveltestrap/sveltestrap';
   import { menuItemList } from '@/layouts/MenuItem';
+  import UserInfo from '@/components/layouts/UserInfo.svelte';
 
   let {
     activeMenu = "Home",
@@ -29,22 +26,7 @@
     <span>Sample Todo App</span>
   </div>
   <div class="me-5">
-    <Dropdown setActiveFromChild>
-      <DropdownToggle nav class="nav-link">
-        <Icon name="person-circle" />
-      </DropdownToggle>
-      <DropdownMenu>
-        <DropdownItem href="#">
-          <Icon name="gear" class="me-2" />
-          Settings
-        </DropdownItem>
-        <hr class="my-2">
-        <DropdownItem href="#">
-          <Icon name="box-arrow-right" class="me-2" />
-          Logout
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+    <UserInfo />
   </div>
 </div>
 <div class="vh-100 d-flex pt-5">
