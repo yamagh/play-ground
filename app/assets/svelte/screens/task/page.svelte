@@ -15,6 +15,9 @@
   import { onMount } from "svelte";
   import { findTasks, type Task } from "./api";
 
+  let title = "";
+  let description = "";
+  let statuses: string[] = [];
   let tasks: Task[] = [];
   let total = 0;
   let page = 1;
@@ -25,7 +28,7 @@
   });
 
   async function loadTasks() {
-    const result = await findTasks(page, perPage);
+    const result = await findTasks(page, perPage, { title, description, statuses });
     if (result) {
       tasks = result.items;
       total = result.total;
@@ -36,30 +39,35 @@
     page = e.detail;
     loadTasks();
   }
+
+  function handleSearch() {
+    page = 1;
+    loadTasks();
+  }
 </script>
 
 <LayoutSideMenu activeMenu="Tasks">
   <PageContainer title="Tasks" fluid={false}>
     {#snippet actions()}
       <div class="hstack gap-3">
-        <SearchBoxWithFilters>
+        <SearchBoxWithFilters on:search={handleSearch} bind:value={title}>
           <Row class="mb-3">
             <Col xs=3><label for="task-title" class="col-form-label">Title</label></Col>
-            <Col><Input id="task-title" /></Col>
+            <Col><Input id="task-title" bind:value={title} /></Col>
           </Row>
           <Row class="mb-3">
             <Col xs=3><label for="task-description" class="col-form-label">Description</label></Col>
-            <Col><Input id="task-description" /></Col>
+            <Col><Input id="task-description" bind:value={description} /></Col>
           </Row>
           <Row>
             <Col xs=3><label for="status" class="col-sm-3 col-form-label">Status</label></Col>
             <Col>
               <ButtonGroup id="status" size="sm">
-                <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off">
+                <input type="checkbox" class="btn-check" id="btn-check-1" autocomplete="off" value="Open" bind:group={statuses}>
                 <label class="btn btn-outline-primary" for="btn-check-1">Open</label>
-                <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off">
-                <label class="btn btn-outline-primary" for="btn-check-2">Working</label>
-                <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off">
+                <input type="checkbox" class="btn-check" id="btn-check-2" autocomplete="off" value="WIP" bind:group={statuses}>
+                <label class="btn btn-outline-primary" for="btn-check-2">WIP</label>
+                <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off" value="Done" bind:group={statuses}>
                 <label class="btn btn-outline-primary" for="btn-check-3">Done</label>
               </ButtonGroup>
             </Col>

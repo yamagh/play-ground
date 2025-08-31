@@ -8,6 +8,28 @@ export type Task = {
   status: string;
 }
 
-export async function findTasks(page: number, perPage: number): Promise<PagedResult<Task> | null> {
-  return await fetchJson<PagedResult<Task>>(`/api/tasks?page=${page}&perPage=${perPage}`);
+export type Page<T> = PagedResult<T>;
+
+export interface SearchCondition {
+  title?: string;
+  description?: string;
+  statuses?: string[];
 }
+
+export async function findTasks(page: number, perPage: number, condition: SearchCondition = {}): Promise<Page<Task> | null> {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    perPage: perPage.toString(),
+  });
+  if (condition.title) {
+    params.append("title", condition.title);
+  }
+  if (condition.description) {
+    params.append("description", condition.description);
+  }
+  if (condition.statuses && condition.statuses.length > 0) {
+    condition.statuses.forEach(s => params.append("statuses", s));
+  }
+  return await fetchJson<PagedResult<Task>>(`/api/tasks?${params.toString()}`);
+}
+

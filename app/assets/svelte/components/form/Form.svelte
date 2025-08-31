@@ -49,3 +49,9 @@
   <input type="hidden" name="csrfToken" value={csrf} />
   {@render children()}
 </form>
+
+<style>
+  form {
+    margin-block-end: 0;
+  }
+</style>
