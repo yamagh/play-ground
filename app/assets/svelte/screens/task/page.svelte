@@ -81,7 +81,9 @@
             </Button>
           </div>
         </SearchBoxWithFilters>
-        <Button color="primary" class="text-nowrap"><Icon name="plus-circle-fill" class="me-1"/> Add New Task</Button>
+        <Button color="primary" class="text-nowrap" href="/tasks/new" tag="a">
+          <Icon name="plus-circle-fill" class="me-1"/> Add New Task
+        </Button>
       </div>
     {/snippet}
     <Table hover>
@@ -100,7 +102,7 @@
       {#each tasks as task}
         <tr>
           <td>{task.id}</td>
-          <td>{task.title}</td>
+          <td><a href="/tasks/{task.id}/edit">{task.title}</a></td>
           <td>{task.status}</td>
           <td>{task.ownerName}</td>
           <td>{task.dueDate}</td>

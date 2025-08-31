@@ -1,8 +1,8 @@
 import { showToast } from '../stores/toast';
 
-export async function fetchJson<T>(endpoint: string): Promise<T | null> {
+export async function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
   try {
-    const response = await fetch(endpoint);
+    const response = await fetch(endpoint, options);
 
     if (response.ok) {
       return await response.json() as T;

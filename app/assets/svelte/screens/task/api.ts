@@ -5,6 +5,7 @@ export type Task = {
   id: number;
   title: string;
   status: string;
+  ownerId: number;
   ownerName: string;
   dueDate: string;
   priority: number;
@@ -30,5 +31,29 @@ export async function findTasks(page: number, perPage: number, condition: Search
     condition.statuses.forEach(s => params.append("statuses", s));
   }
   return await fetchJson<PagedResult<Task>>(`/api/tasks?${params.toString()}`);
+}
+
+export async function findTask(id: number): Promise<Task | null> {
+  return await fetchJson<Task>(`/api/tasks/${id}`);
+}
+
+export async function createTask(task: Partial<Task>): Promise<Task | null> {
+  return await fetchJson<Task>("/api/tasks", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  });
+}
+
+export async function updateTask(id: number, task: Partial<Task>): Promise<Task | null> {
+  return await fetchJson<Task>(`/api/tasks/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  });
 }
 

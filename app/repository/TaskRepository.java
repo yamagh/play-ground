@@ -8,6 +8,7 @@ import models.Task;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
@@ -35,6 +36,29 @@ public class TaskRepository {
                 .setFirstRow((page - 1) * perPage)
                 .setMaxRows(perPage)
                 .findPagedList();
+        }, executionContext);
+    }
+
+    public CompletionStage<Optional<Task>> findById(Long id) {
+        return supplyAsync(() ->
+            DB.find(Task.class)
+                .where()
+                .eq("id", id)
+                .findOneOrEmpty()
+        , executionContext);
+    }
+
+    public CompletionStage<Task> insert(Task task) {
+        return supplyAsync(() -> {
+            DB.insert(task);
+            return task;
+        }, executionContext);
+    }
+
+    public CompletionStage<Task> update(Task task) {
+        return supplyAsync(() -> {
+            DB.update(task);
+            return task;
         }, executionContext);
     }
 }

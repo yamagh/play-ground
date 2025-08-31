@@ -1,5 +1,6 @@
 package controllers.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Task;
 import play.libs.Json;
@@ -57,5 +58,29 @@ public class TaskController extends Controller {
             }).collect(Collectors.toList())));
             return ok(result);
         });
+    }
+
+    public CompletionStage<Result> findById(Http.Request request, Long id) {
+        return taskRepository.findById(id).thenApply(taskOpt ->
+            taskOpt.map(task -> ok(Json.toJson(task)))
+                .orElse(notFound())
+        );
+    }
+
+    public CompletionStage<Result> create(Http.Request request) {
+        JsonNode json = request.body().asJson();
+        Task task = Json.fromJson(json, Task.class);
+        return taskRepository.insert(task).thenApply(insertedTask ->
+            created(Json.toJson(insertedTask))
+        );
+    }
+
+    public CompletionStage<Result> update(Http.Request request, Long id) {
+        JsonNode json = request.body().asJson();
+        Task task = Json.fromJson(json, Task.class);
+        task.id = id;
+        return taskRepository.update(task).thenApply(updatedTask ->
+            ok(Json.toJson(updatedTask))
+        );
     }
 }
