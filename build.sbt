@@ -1,7 +1,7 @@
 import tanin.play.svelte.SbtSvelte.autoImport.SvelteKeys.svelte
 
-name := """test-play-project"""
-organization := "tanin.play.svelte"
+name := """play-project-template"""
+organization := "yamagh.com.github"
 version := "1.0-SNAPSHOT"
 
 val isWin = sys.props.get("os.name").exists(_.toLowerCase.contains("win"))
