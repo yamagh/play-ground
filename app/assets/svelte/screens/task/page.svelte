@@ -5,15 +5,13 @@
     Col,
     Icon,
     Input,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
     Row,
     Table,
   } from "@sveltestrap/sveltestrap";
   import LayoutSideMenu from '@/layouts/LayoutSideMenu.svelte';
   import PageContainer from '@/layouts/PageContainer.svelte';
   import SearchBoxWithFilters from '@/components/SearchBoxWithFilters/SearchBoxWithFilters.svelte';
+  import Pagination from '@/components/common/Pagination.svelte';
   import { onMount } from "svelte";
   import { findTasks, type Task } from "./api";
 
@@ -34,8 +32,8 @@
     }
   }
 
-  function handlePageChange(newPage: number) {
-    page = newPage;
+  function handlePageChange(e: CustomEvent<number>) {
+    page = e.detail;
     loadTasks();
   }
 </script>
@@ -91,21 +89,7 @@
       </tbody>
     </Table>
 
-    <Pagination aria-label="Page navigation">
-      <PaginationItem disabled={page <= 1}>
-        <PaginationLink previous href="#" on:click={() => handlePageChange(page - 1)} />
-      </PaginationItem>
-      {#each Array(Math.ceil(total / perPage)) as _, i}
-        <PaginationItem active={page === i + 1}>
-          <PaginationLink href="#" on:click={() => handlePageChange(i + 1)}>
-            {i + 1}
-          </PaginationLink>
-        </PaginationItem>
-      {/each}
-      <PaginationItem disabled={page >= Math.ceil(total / perPage)}>
-        <PaginationLink next href="#" on:click={() => handlePageChange(page + 1)} />
-      </PaginationItem>
-    </Pagination>
+    <Pagination {page} {total} {perPage} on:change={handlePageChange} />
   </PageContainer>
 </LayoutSideMenu>
 
