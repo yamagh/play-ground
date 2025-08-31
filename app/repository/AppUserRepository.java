@@ -12,9 +12,6 @@ import java.util.concurrent.CompletionStage;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
-/**
- *
- */
 public class AppUserRepository {
 
     private final DatabaseExecutionContext executionContext;
