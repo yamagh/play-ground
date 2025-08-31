@@ -15,7 +15,7 @@
   import PageContainer from '@/layouts/PageContainer.svelte';
   import SearchBoxWithFilters from '@/components/SearchBoxWithFilters/SearchBoxWithFilters.svelte';
   import { onMount } from "svelte";
-  import { findTasks, type Task } from "@/utils/api";
+  import { findTasks, type Task } from "./api";
 
   let tasks: Task[] = [];
   let total = 0;
