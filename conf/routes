@@ -1,4 +1,4 @@
-GET     /                           controllers.web.LoginController.index(request: Request)
+GET     /                           controllers.web.TaskController.index(request: Request)
 GET     /login                      controllers.web.LoginController.index(request: Request)
 POST    /login                      controllers.web.LoginController.login(request: Request)
 
