@@ -1,35 +1,51 @@
 <script lang="ts">
   let {
     action = "/",
-    children = ()=>{}
-  } = $props()
+    children = () => {},
+    onSubmit
+  } = $props<{
+    action?: string,
+    children?: any,
+    onSubmit?: (form: HTMLFormElement) => Promise<any>
+  }>()
 
   const csrf = document.getElementById("app")?.attributes.csrf.value
 
-  const handleSubmit = (event: SubmitEvent) => {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
+  const submit = async (form: HTMLFormElement) => {
     const formData = new FormData(form);
     const body = new URLSearchParams();
     for (const pair of formData.entries()) {
         body.append(pair[0], pair[1] as string);
     }
 
-    fetch(action, {
+    const res = await fetch(action, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
       body: body,
-    }).then((res) => {
-      if (res.redirected) {
-        window.location.href = res.url;
-      }
-    });
+    })
+    return res.json()
   }
+
+  const handleFormSubmit = (event: SubmitEvent) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    if (onSubmit) {
+      onSubmit(form)
+    } else {
+      submit(form).then(data => {
+        if (data.success && data.redirectUrl) {
+          window.location.href = data.redirectUrl;
+        }
+      })
+    }
+  }
+
+  export { submit }
 </script>
 
-<form onsubmit={handleSubmit}>
+<form onsubmit={handleFormSubmit}>
   <input type="hidden" name="csrfToken" value={csrf} />
   {@render children()}
 </form>

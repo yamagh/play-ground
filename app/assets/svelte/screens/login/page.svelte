@@ -1,9 +1,20 @@
 <script lang="ts">
   import { Form } from "@/components";
-  import { Button, Card, CardBody, FormGroup, Icon, Input } from "@sveltestrap/sveltestrap";
+  import { Alert, Button, Card, CardBody, FormGroup, Icon, Input } from "@sveltestrap/sveltestrap";
 
   let email = "admin@invalid.com";
   let password = "FFFFFF";
+  let formComponent: Form;
+  let errorMessage = "";
+
+  const handleLogin = async (form: HTMLFormElement) => {
+    const result = await formComponent.submit(form);
+    if (result.success) {
+      window.location.href = result.redirectUrl;
+    } else {
+      errorMessage = "Invalid email or password.";
+    }
+  }
 </script>
 
 <div class="vh-100 d-flex justify-content-center align-items-center">
@@ -13,7 +24,10 @@
         <div class="mb-5 text-center" style:font-size=10rem>
           <Icon name="rocket" class=text-gray-300/>
         </div>
-        <Form action="/login">
+        {#if errorMessage}
+          <Alert color="danger">{errorMessage}</Alert>
+        {/if}
+        <Form action="/login" onSubmit={handleLogin} bind:this={formComponent}>
           <FormGroup floating label="Email">
             <Input name="email" type="email" placeholder="name@example.com" bind:value={email} autocomplete="on" />
           </FormGroup>
