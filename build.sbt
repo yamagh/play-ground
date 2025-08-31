@@ -7,12 +7,19 @@ version := "1.0-SNAPSHOT"
 val isWin = sys.props.get("os.name").exists(_.toLowerCase.contains("win"))
 
 lazy val root = (project in file("."))
-  .enablePlugins(PlayScala, SbtWeb, SbtSvelte, SbtPostcss, PlayEbean)
-  .settings(
+  .enablePlugins(
+    // PlayScala,
+    PlayJava,
+    SbtWeb,
+    SbtSvelte,
+    SbtPostcss,
+    PlayEbean
+  ).settings(
     scalaVersion := "2.13.16",
     libraryDependencies ++= Seq(
       guice,
-      "com.h2database" % "h2" % "1.4.192",
+      jdbc,
+      "com.h2database" % "h2" % "2.3.232",
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test,
     ),
     svelte / SvelteKeys.webpackBinary := {
