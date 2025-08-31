@@ -39,4 +39,8 @@ public class AppUserRepository {
         return supplyAsync(() -> DB.find(AppUser.class).where().eq("email", email).findOneOrEmpty(), executionContext);
     }
 
+    public CompletionStage<Optional<AppUser>> findById(Long id) {
+        return supplyAsync(() -> DB.find(AppUser.class).where().eq("id", id).findOneOrEmpty(), executionContext);
+    }
+
 }
