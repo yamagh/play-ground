@@ -9,6 +9,7 @@
     searchTooltip = "Search",
     filterTooltip = "Advanced search options",
     width = 480,
+    isOpen = $bindable(false),
   } = $props();
 
   const dispatch = createEventDispatcher();
@@ -29,22 +30,24 @@
       </Button>
       <Input placeholder="Search tasks" aria-describedby="search" bind:value={value}></Input>
       <InputGroupText id="filter">
-        <Tooltip target="filter" placement="top">{filterTooltip}</Tooltip>
-        <button
-          class="dropdown-toggle"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          data-bs-offset="16,20"
-          data-bs-auto-close="false">
-          <Icon name="sliders2" />
-        </button>
-        <Dropdown>
-          <DropdownMenu class="p-3 shadow">
-            <div style:width={width-30}px>
-              {@render children()}
-            </div>
-          </DropdownMenu>
-        </Dropdown>
+        <div class="dropdown-center">
+          <Tooltip target="filter" placement="top">{filterTooltip}</Tooltip>
+          <button
+            class="dropdown-toggle"
+            onclick={() => isOpen = !isOpen}
+            aria-expanded={isOpen}
+            type="button"
+          >
+            <Icon name="sliders2" />
+          </button>
+          <Dropdown bind:isOpen={isOpen} style="left: {30-width}px; top: 16px;" >
+            <DropdownMenu class="p-3 shadow">
+              <div style:width={width-30}px>
+                {@render children()}
+              </div>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
       </InputGroupText>
     </InputGroup>
   </Form>

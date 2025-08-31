@@ -19,6 +19,7 @@
   let description = "";
   let statuses: string[] = [];
   let tasks: Task[] = [];
+  let filterIsOpen = false;
   let total = 0;
   let page = 1;
   const perPage = 10;
@@ -41,6 +42,7 @@
   }
 
   function handleSearch() {
+    filterIsOpen = false;
     page = 1;
     loadTasks();
   }
@@ -56,7 +58,7 @@
   <PageContainer title="Tasks" fluid={false}>
     {#snippet actions()}
       <div class="hstack gap-3">
-        <SearchBoxWithFilters on:search={handleSearch} bind:value={title}>
+        <SearchBoxWithFilters on:search={handleSearch} bind:value={title} bind:isOpen={filterIsOpen}>
           <Row class="mb-3">
             <Col xs=3><label for="task-title" class="col-form-label">Title</label></Col>
             <Col><Input id="task-title" bind:value={title} /></Col>
