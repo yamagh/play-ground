@@ -7,7 +7,7 @@ insert into app_user
 values
   (1,'admin@invalid.com','FFFFFF','Admin',now(),null,null,'system',null,null)
 , (2,'user1@invalid.com','FFFFFF','User1',now(),null,null,'system',null,null)
-, (3,'user1@invalid.com','FFFFFF','User2',now(),null,null,'system',null,null)
+, (3,'user2@invalid.com','FFFFFF','User2',now(),null,null,'system',null,null)
 ;
 
 insert into task

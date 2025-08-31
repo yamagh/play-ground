@@ -15,7 +15,7 @@
       const response = await fetch('/api/me');
       if (response.ok) {
         const user = await response.json();
-        userName = user.email;
+        userName = user.name;
       } else {
         console.error('Failed to fetch user info');
       }

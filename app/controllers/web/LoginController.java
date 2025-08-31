@@ -1,6 +1,7 @@
 package controllers.web;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.AppUser;
 import play.data.DynamicForm;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -33,10 +34,14 @@ public class LoginController extends Controller {
     String password = form.get("password");
     return appUserService.authenticate(email, password).thenApply(userOptional -> {
       if (userOptional.isPresent()) {
+        AppUser user = userOptional.get();
         ObjectNode result = Json.newObject();
         result.put("success", true);
         result.put("redirectUrl", "/");
-        return ok(result).addingToSession(request, "userId", userOptional.get().id.toString());
+        return ok(result)
+            .addingToSession(request, "userId", user.id.toString())
+            .addingToSession(request, "email", user.email)
+            .addingToSession(request, "name", user.name);
       } else {
         ObjectNode result = Json.newObject();
         result.put("success", false);
