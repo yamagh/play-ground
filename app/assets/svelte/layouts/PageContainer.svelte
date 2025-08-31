@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Container } from "@sveltestrap/sveltestrap";
+  import ToastContainer from "../components/layouts/ToastContainer.svelte";
 
   let {
     title,
@@ -51,3 +52,5 @@
     width: 100%;
   }
 </style>
+
+<ToastContainer />
