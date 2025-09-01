@@ -113,7 +113,16 @@
       </tbody>
     </Table>
 
-    <Pagination {page} {total} {perPage} on:change={handlePageChange} />
+    <div class="d-flex justify-content-between mt-3">
+      <div>
+        {#if total > 0}
+          <small>Total: {total} records</small>
+        {/if}
+      </div>
+      <div>
+        <Pagination {page} {total} {perPage} on:change={handlePageChange} />
+      </div>
+    </div>
   </PageContainer>
 </LayoutSideMenu2>
 
