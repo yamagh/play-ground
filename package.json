@@ -34,12 +34,13 @@
     "webpack-hot-middleware": "2.26.1"
   },
   "scripts": {
-    "hmr": "NODE_PATH=./node_modules ENABLE_HMR=true node hmr.js"
+    "hmr": "cross-env NODE_PATH=./node_modules ENABLE_HMR=true node hmr.js"
   },
   "dependencies": {
     "@sveltestrap/sveltestrap": "^7.1.0",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
-    "cors": "2.8.5"
+    "cors": "2.8.5",
+    "cross-env": "^10.0.0"
   }
 }
