@@ -14,7 +14,7 @@
   import LayoutSideMenu from "@/layouts/LayoutSideMenu.svelte";
   import PageContainer from "@/layouts/PageContainer.svelte";
   import { onMount } from "svelte";
-  import { createTask, findTask, updateTask, type Task } from "../task/api";
+  import { createTask, findTask, updateTask, type Task } from "../tasks/api";
   import { toast } from "@/stores/toast";
 
   let task: Partial<Task> = {};

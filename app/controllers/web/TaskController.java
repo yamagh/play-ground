@@ -10,7 +10,7 @@ import play.filters.csrf.RequireCSRFCheck;
 public class TaskController extends Controller {
 
   public Result index(Http.Request request) {
-    return ok(views.html.screen.render("task", request));
+    return ok(views.html.screen.render("tasks", request));
   }
 
   public Result edit(Http.Request request, Long id) {
