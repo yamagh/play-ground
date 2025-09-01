@@ -91,6 +91,35 @@
 
 これにより、SvelteコンポーネントやCSSの変更がブラウザをリロードすることなく適用されます。
 
+## ディレクトリ構成
+
+- `app` - アプリケーションのソースコード
+  - `assets` - フロントエンドのアセット (Svelte, CSS, etc.)
+    - `svelte/components` - 共通のUIコンポーネント (フォーム、ページネーションなど)
+    - `svelte/layouts` - アプリケーション全体のレイアウト
+    - `svelte/screens` - 各画面に対応するSvelteコンポーネント (ログイン画面、タスク一覧画面など)
+    - `svelte/stores` - Svelteのストア (状態管理)
+    - `svelte/utils` - ユーティリティ関数 (APIクライアントなど)
+  - `controllers` - アプリケーションのコントローラー (Scala/Java)
+    - `actions` - 認証チェックなどのカスタムアクション
+    - `api` - JSONを返すAPI用のコントローラー
+    - `web` - HTMLをレンダリングするWebページ用のコントローラー
+  - `models` - アプリケーションのビジネスロジック (モデル)
+  - `repository` - データベースアクセス層
+  - `services` - サービス層
+  - `views` - テンプレート (主に `scala.html`)
+- `build.sbt` - sbt のビルドスクリプト
+- `conf` - 設定ファイル
+  - `application.conf` - メインの設定ファイル
+  - `routes` - ルーティング定義
+  - `evolutions` - データベースのマイグレーションスクリプト
+- `public` - 公開される静的アセット
+- `test` - テストコード
+- `package.json` - Node.js の依存関係とスクリプト
+- `webpack.config.js` - Webpack の設定ファイル
+- `tailwind.config.js` - Tailwind CSS の設定ファイル
+- `tsconfig.json` - TypeScript の設定ファイル
+
 ## ライセンス
 
 このプロジェクトは [MIT License](LICENSE) の下で公開されています。
