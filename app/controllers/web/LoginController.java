@@ -24,6 +24,10 @@ public class LoginController extends Controller {
     this.formFactory = formFactory;
   }
 
+  public Result unauthorized(Http.Request request) {
+    return ok(views.html.error403.render());
+  }
+
   public Result index(Http.Request request) {
     return ok(views.html.screen.render("login", request));
   }
