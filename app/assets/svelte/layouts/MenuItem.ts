@@ -1,6 +1,7 @@
 type MenuItem = {
   label: string;
-  icon: string;
+  icon?: string;
+  image?: string;
   href: string;
   isAppTitle?: boolean;
 }
@@ -8,7 +9,7 @@ type MenuItem = {
 export const menuItemList: MenuItem[] = [
   {
     label: "Sample App",
-    icon: "rocket-fill",
+    image: "/assets/images/logo1.svg",
     href: "/",
     isAppTitle: true,
   },

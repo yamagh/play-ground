@@ -1,6 +1,9 @@
 <script lang="ts">
   import { Icon } from '@sveltestrap/sveltestrap';
   import { UserInfo, AppTitle, VerticalMenu } from '@/components';
+  import { menuItemList } from '@/layouts/MenuItem';
+
+  const appTitleItem = menuItemList.find(item => item.isAppTitle);
 
   let {
     activeMenu = "Home",
@@ -18,7 +21,7 @@
         <div class="vr ms-3"></div>
       </span>
     {/if}
-    <AppTitle />
+    <AppTitle item={appTitleItem} />
   </div>
   <div class="me-5">
     <UserInfo />

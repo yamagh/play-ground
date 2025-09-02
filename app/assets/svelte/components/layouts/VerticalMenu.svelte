@@ -4,7 +4,6 @@
     Tooltip,
   } from '@sveltestrap/sveltestrap';
   import { menuItemList } from '@/layouts/MenuItem';
-  import { AppTitle } from '@/components';
 
   let {
     activeMenu = "Home",
@@ -24,13 +23,25 @@
           <a
             id="{item.label}-link"
             href="{item.href}"
-            class="nav-link {item.label == activeMenu ? "active" : "link-dark"} {sidebarOpened ? "" : "py-3 border-bottom"} {item.isAppTitle ? "fs-4 px-0" : ""}"
+            class="
+              nav-link
+              {item.label == activeMenu ? "active" : "link-dark"}
+              {sidebarOpened ? "" : "py-3 border-bottom mx-auto"}
+              {item.isAppTitle ? "fs-4" : ""}
+              {item.isAppTitle && sidebarOpened ? "px-0" : ""}
+              "
             aria-current="page"
           >
-            <Icon name={item.icon}/>
-            {#if sidebarOpened}
-              <span class="ms-2">{item.label}</span>
-            {/if}
+            <div class="d-flex align-items-center">
+              {#if item.image}
+                <img src={item.image} alt={item.label} class="app-logo" />
+              {:else}
+                <Icon name={item.icon}/>
+              {/if}
+              {#if sidebarOpened}
+                <span class="ms-2">{item.label}</span>
+              {/if}
+            </div>
           </a>
           {#if !sidebarOpened}
             <Tooltip target={`${item.label}-link`} placement="right">{item.label}</Tooltip>
@@ -45,6 +56,11 @@
 </div>
 
 <style>
+.app-logo {
+  width: 28px;
+  height: 28px;
+  vertical-align: text-bottom;
+}
 .sidebar {
   height: calc(100vh - 47px);
   overflow: auto;
@@ -54,7 +70,7 @@
   transition: 0.1s ease;
 }
 .sidebar-closed {
-  width: 66px;
+  width: 56px;
   transition: 0.1s ease;
   a {
     font-size: 1.4rem;
