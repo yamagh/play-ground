@@ -17,6 +17,7 @@
 - **1-2. [開発環境のセットアップ](./3-Setup.md)**
 - **コラム: [Play Frameworkとは](./column-play-framework.md)**
 - **コラム: [Svelteとは](./column-svelte.md)**
+- **コラム: [SveltestrapによるUIデザイン](./column-sveltestrap.md)**
 - **コラム: [BootstrapによるUIデザイン](./column-bootstrap.md)**
 
 ### 2. 静的なページの作成
