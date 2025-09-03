@@ -1,0 +1,4 @@
+description="Create Commit Message"
+prompt = """
+コミットメッセージを @tmp/tmp.md に出力せよ
+"""
