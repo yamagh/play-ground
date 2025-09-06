@@ -1,0 +1,4 @@
+description="コミットメッセージ"
+prompt = """
+コミットメッセージを日本語で @tmp/tmp.md に出力せよ
+"""
