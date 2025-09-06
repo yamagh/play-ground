@@ -1,0 +1,6 @@
+description="実装計画"
+prompt = """
+次の内容を元に実装計画を @tmp/plan.md に出力せよ
+
+{{args}}
+"""

@@ -11,6 +11,7 @@ GET     /assets/*file               controllers.AssetsController.versioned(path=
 
 GET     /api/me                     controllers.api.UserController.me(request: Request)
 GET     /api/tasks                  controllers.api.TaskController.find(request: Request)
+GET     /api/tasks/export           controllers.api.TaskController.exportCsv(request: Request)
 GET     /api/tasks/:id              controllers.api.TaskController.findById(request: Request, id: Long)
 POST    /api/tasks                  controllers.api.TaskController.create(request: Request)
 PUT     /api/tasks/:id              controllers.api.TaskController.update(request: Request, id: Long)

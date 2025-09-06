@@ -83,4 +83,44 @@ public class TaskController extends Controller {
             ok(Json.toJson(updatedTask))
         );
     }
+
+    public CompletionStage<Result> exportCsv(Http.Request request) {
+        String title = request.queryString("title").orElse(null);
+        List<String> statuses = Optional.ofNullable(request.queryString().get("statuses"))
+            .map(Arrays::asList)
+            .orElse(Collections.emptyList());
+
+        return taskRepository.findAll(title, statuses).thenApply(tasks -> {
+            String csv = convertToCsv(tasks);
+            return ok(csv)
+                .as("text/csv")
+                .withHeader("Content-Disposition", "attachment; filename=\"tasks.csv\"");
+        });
+    }
+
+    private String convertToCsv(List<Task> tasks) {
+        StringBuilder sb = new StringBuilder();
+        // Header
+        sb.append("\"ID\",\"Title\",\"Status\",\"Owner\",\"Due Date\",\"Priority\",\"Created On\"\n");
+        // Rows
+        for (Task task : tasks) {
+            sb.append(String.format("\"%d\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\"\n",
+                task.id,
+                escapeCsv(task.title),
+                escapeCsv(task.status),
+                task.owner != null ? escapeCsv(task.owner.name) : "",
+                escapeCsv(task.dueDate),
+                task.priority,
+                task.createdOn != null ? task.createdOn.toString() : ""
+            ));
+        }
+        return sb.toString();
+    }
+
+    private String escapeCsv(String value) {
+        if (value == null) {
+            return "";
+        }
+        return value.replace("\"", "\"\"");
+    }
 }

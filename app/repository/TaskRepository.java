@@ -61,4 +61,20 @@ public class TaskRepository {
             return task;
         }, executionContext);
     }
+
+    public CompletionStage<List<Task>> findAll(String title, List<String> statuses) {
+        return supplyAsync(() -> {
+            Query<Task> query = DB.find(Task.class);
+            ExpressionList<Task> where = query.where();
+            if (title != null && !title.isEmpty()) {
+                where.ilike("title", "%" + title + "%");
+            }
+            if (statuses != null && !statuses.isEmpty()) {
+                where.in("status", statuses);
+            }
+            return query
+                .fetch("owner")
+                .findList();
+        }, executionContext);
+    }
 }
