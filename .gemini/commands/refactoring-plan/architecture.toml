@@ -1,4 +1,4 @@
-description="リファクタリング計画"
+description="アーキテクチャガイドラインの適用"
 prompt = """
 リファクタリング計画を @tmp/plan.md に出力せよ
 

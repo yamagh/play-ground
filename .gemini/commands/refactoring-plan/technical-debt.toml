@@ -1,4 +1,4 @@
-description="リファクタリング計画"
+description="技術的負債の解消"
 prompt = """
 リファクタリング計画を @tmp/plan.md に出力せよ
 

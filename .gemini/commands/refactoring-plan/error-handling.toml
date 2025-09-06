@@ -1,4 +1,4 @@
-description="リファクタリング計画"
+description="エラーハンドリングの強化"
 prompt = """
 リファクタリング計画を @tmp/plan.md に出力せよ
 
