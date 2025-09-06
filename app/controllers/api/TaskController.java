@@ -2,12 +2,14 @@ package controllers.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import libraries.CsvResult;
 import models.Task;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
 import repository.TaskRepository;
+import services.CsvService;
 
 import javax.inject.Inject;
 import java.util.Arrays;
@@ -15,15 +17,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TaskController extends Controller {
 
     private final TaskRepository taskRepository;
+    private final CsvService csvService;
 
     @Inject
-    public TaskController(TaskRepository taskRepository) {
+    public TaskController(TaskRepository taskRepository, CsvService csvService) {
         this.taskRepository = taskRepository;
+        this.csvService = csvService;
     }
 
     public CompletionStage<Result> find(Http.Request request) {
@@ -91,36 +96,21 @@ public class TaskController extends Controller {
             .orElse(Collections.emptyList());
 
         return taskRepository.findAll(title, statuses).thenApply(tasks -> {
-            String csv = convertToCsv(tasks);
-            return ok(csv)
-                .as("text/csv")
-                .withHeader("Content-Disposition", "attachment; filename=\"tasks.csv\"");
-        });
-    }
+            List<String> headers = Arrays.asList("ID", "Title", "Status", "Owner", "Due Date", "Priority", "Created On");
 
-    private String convertToCsv(List<Task> tasks) {
-        StringBuilder sb = new StringBuilder();
-        // Header
-        sb.append("\"ID\",\"Title\",\"Status\",\"Owner\",\"Due Date\",\"Priority\",\"Created On\"\n");
-        // Rows
-        for (Task task : tasks) {
-            sb.append(String.format("\"%d\",\"%s\",\"%s\",\"%s\",\"%s\",\"%d\",\"%s\"\n",
-                task.id,
-                escapeCsv(task.title),
-                escapeCsv(task.status),
-                task.owner != null ? escapeCsv(task.owner.name) : "",
-                escapeCsv(task.dueDate),
-                task.priority,
+            Function<Task, List<String>> rowMapper = task -> Arrays.asList(
+                String.valueOf(task.id),
+                task.title,
+                task.status,
+                task.owner != null ? task.owner.name : "",
+                task.dueDate,
+                String.valueOf(task.priority),
                 task.createdOn != null ? task.createdOn.toString() : ""
-            ));
-        }
-        return sb.toString();
-    }
+            );
 
-    private String escapeCsv(String value) {
-        if (value == null) {
-            return "";
-        }
-        return value.replace("\"", "\"\"");
+            String csv = csvService.generate(headers, tasks, rowMapper);
+
+            return CsvResult.ok(csv, "tasks.csv");
+        });
     }
 }
