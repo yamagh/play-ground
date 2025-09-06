@@ -1,63 +1,63 @@
 # Gemini.md
 
-This file provides instructions for AI coding agents working on this repository. It is based on the [AGENTS.md](https://agents.md) format.
+このファイルは、このリポジトリで作業するAIコーディングエージェントへの指示を提供します。これは [AGENTS.md](https://agents.md) フォーマットに基づいています。
 
-## Project Overview
+## プロジェクト概要
 
-This project is a web application built with the Play Framework (using Scala and Java) for the backend and Svelte for the frontend. It appears to be a task management application.
+このプロジェクトは、バックエンドにPlay Framework（ScalaとJavaを使用）、フロントエンドにSvelteを使用して構築されたWebアプリケーションです。タスク管理アプリケーションのようです。
 
-## How to get started
+## はじめ方
 
-### Prerequisites
+### 前提条件
 
 - Java Development Kit (JDK)
-- sbt (the Scala Build Tool)
-- Node.js and npm
+- sbt (The Scala Build Tool)
+- Node.js と npm
 
-### Build and Run
+### ビルドと実行
 
-1.  **Install frontend dependencies:**
+1.  **フロントエンドの依存関係をインストールします:**
     ```bash
     npm install
     ```
-2.  **Run the application (backend and frontend):**
+2.  **アプリケーションを実行します（バックエンドとフロントエンド）:**
     ```bash
     sbt run
     ```
 
-The application will be available at `http://localhost:9000`. The Play Framework handles the backend, and `webpack` (configured in `webpack.config.js`) compiles and serves the Svelte frontend assets.
+アプリケーションは `http://localhost:9000` で利用可能になります。Play Frameworkがバックエンドを処理し、`webpack`（`webpack.config.js`で設定）がSvelteのフロントエンドアセットをコンパイルして提供します。
 
-## Testing
+## テスト
 
-To run the tests, use the following command:
+テストを実行するには、次のコマンドを使用します:
 
 ```bash
 sbt test
 ```
 
-Browser tests are located in the `test/browsers/` directory.
+ブラウザテストは `test/browsers/` ディレクトリにあります。
 
-## Code Style
+## コードスタイル
 
-- **Backend (Scala/Java):** Follow standard Play Framework conventions.
-- **Frontend (Svelte/TypeScript):** This project uses TypeScript (`tsconfig.json`) and Tailwind CSS (`tailwind.config.js`). Please adhere to the existing coding styles.
+- **バックエンド (Scala/Java):** 標準的なPlay Frameworkの規約に従ってください。
+- **フロントエンド (Svelte/TypeScript):** このプロジェクトではTypeScript (`tsconfig.json`) とTailwind CSS (`tailwind.config.js`) を使用しています。既存のコーディングスタイルに従ってください。
 
-## Key File Locations
+## 主要なファイルの場所
 
-- **Backend Controllers:** `app/controllers/`
-- **API Controllers:** `app/controllers/api/`
-- **Backend Models:** `app/models/`
-- **Database Evolutions:** `conf/evolutions/default/`
-- **Routes:** `conf/routes`
-- **Svelte Components:** `app/assets/svelte/`
-- **Main Svelte Screens:** `app/assets/svelte/screens/`
+- **バックエンドコントローラー:** `app/controllers/`
+- **APIコントローラー:** `app/controllers/api/`
+- **バックエンドモデル:** `app/models/`
+- **データベースエボリューション:** `conf/evolutions/default/`
+- **ルーティング:** `conf/routes`
+- **Svelteコンポーネント:** `app/assets/svelte/`
+- **メインSvelte画面:** `app/assets/svelte/screens/`
 
-## Security Considerations
+## セキュリティに関する考慮事項
 
-- Be mindful of common web application vulnerabilities (e.g., XSS, CSRF).
-- Sanitize user input, especially in controllers.
-- Use parameterized queries to prevent SQL injection (the project uses Ebean ORM, which helps with this).
+- 一般的なWebアプリケーションの脆弱性（例：XSS、CSRF）に注意してください。
+- 特にコントローラーでユーザー入力をサニタイズしてください。
+- パラメータ化されたクエリを使用してSQLインジェクションを防ぎます（このプロジェクトではEbean ORMを使用しており、これが役立ちます）。
 
-## Commit Messages
+## コミットメッセージ
 
-Please follow a conventional commit message format to maintain a clear and understandable project history.
+明確で理解しやすいプロジェクト履歴を維持するために、従来のコミットメッセージ形式に従ってください。
