@@ -30,46 +30,47 @@ async function _fetch<T>(endpoint: string, options?: RequestInit): Promise<T | n
   }
 }
 
-export function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
-  return _fetch(endpoint, options);
-}
-
-function _sendJson<T>(method: 'POST' | 'PUT', endpoint: string, data: unknown): Promise<T | null> {
-  const csrf = document.getElementById("app")?.attributes.getNamedItem("csrf")?.value;
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-  };
-  if (csrf) {
-    headers['Csrf-Token'] = csrf;
-  }
-  return _fetch(endpoint, {
-    method,
-    headers,
-    body: JSON.stringify(data),
-  });
-}
-
-export function postJson<T>(endpoint: string, data: unknown): Promise<T | null> {
-  return _sendJson('POST', endpoint, data);
-}
-
-export function putJson<T>(endpoint: string, data: unknown): Promise<T | null> {
-  return _sendJson('PUT', endpoint, data);
-}
-
-export function deleteJson<T>(endpoint: string): Promise<T | null> {
-  const csrf = document.getElementById("app")?.attributes.getNamedItem("csrf")?.value;
+async function _request<T>(
+  method: 'POST' | 'PUT' | 'DELETE',
+  endpoint: string,
+  data?: unknown
+): Promise<T | null> {
+  const csrf = document.getElementById('app')?.attributes.getNamedItem('csrf')?.value;
   const headers: HeadersInit = {};
   if (csrf) {
     headers['Csrf-Token'] = csrf;
   }
-  return _fetch(endpoint, {
-    method: 'DELETE',
+
+  const options: RequestInit = {
+    method,
     headers,
-  });
+  };
+
+  if (data) {
+    headers['Content-Type'] = 'application/json';
+    options.body = JSON.stringify(data);
+  }
+
+  return _fetch(endpoint, options);
+}
+
+export function get<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
+  return _fetch(endpoint, options);
+}
+
+export function post<T>(endpoint: string, data: unknown): Promise<T | null> {
+  return _request('POST', endpoint, data);
+}
+
+export function put<T>(endpoint: string, data: unknown): Promise<T | null> {
+  return _request('PUT', endpoint, data);
+}
+
+export function del<T>(endpoint: string): Promise<T | null> {
+  return _request('DELETE', endpoint);
 }
 
 export type PagedResult<T> = {
   items: T[];
   total: number;
-}
+};

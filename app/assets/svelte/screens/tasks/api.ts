@@ -1,4 +1,4 @@
-import { fetchJson, postJson, putJson, deleteJson } from "@/utils/api";
+import { get, post, put, del } from "@/utils/api";
 import type { PagedResult } from "@/utils/api";
 
 export type Task = {
@@ -30,24 +30,24 @@ export async function findTasks(page: number, perPage: number, condition: Search
   if (condition.statuses && condition.statuses.length > 0) {
     condition.statuses.forEach(s => params.append("statuses", s));
   }
-  return await fetchJson<PagedResult<Task>>(`/api/tasks?${params.toString()}`);
+  return await get<PagedResult<Task>>(`/api/tasks?${params.toString()}`);
 }
 
 export async function findTask(id: number): Promise<Task | null> {
-  return await fetchJson<Task>(`/api/tasks/${id}`);
+  return await get<Task>(`/api/tasks/${id}`);
 }
 
 export async function createTask(task: Partial<Task>): Promise<Task | null> {
-  return await postJson<Task>("/api/tasks", task);
+  return await post<Task>("/api/tasks", task);
 }
 
 export async function updateTask(id: number, task: Partial<Task>): Promise<Task | null> {
-  return await putJson<Task>(`/api/tasks/${id}`, task);
+  return await put<Task>(`/api/tasks/${id}`, task);
 }
 
 export async function deleteTask(id: number): Promise<boolean> {
   try {
-    const response = await deleteJson(`/api/tasks/${id}`);
+    const response = await del(`/api/tasks/${id}`);
     return response !== null;
   } catch (error) {
     console.error("Failed to delete task:", error);
