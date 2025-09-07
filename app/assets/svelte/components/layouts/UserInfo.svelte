@@ -7,7 +7,7 @@
     DropdownToggle,
   } from '@sveltestrap/sveltestrap';
   import { onMount } from 'svelte';
-  import { fetchJson } from '../../utils/api';
+  import { get } from '../../utils/api';
 
   interface User {
     name: string;
@@ -16,7 +16,7 @@
   let userName = '';
 
   onMount(async () => {
-    const user = await fetchJson<User>('/api/me');
+    const user = await get<User>('/api/me');
     if (user) {
       userName = user.name;
     }
