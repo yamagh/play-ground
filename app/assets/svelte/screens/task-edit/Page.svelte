@@ -42,17 +42,18 @@
     }
     if (result) {
       toast.success("Task saved successfully!");
-      // window.location.href = "/tasks";
+      window.location.href = "/tasks";
     }
   }
 
-  async function handleDelete() {
+  async function handleDelete(event: Event) {
+    event.preventDefault();
     if (!id) return;
     if (window.confirm("Are you sure you want to delete this task?")) {
       const result = await deleteTask(id);
       if (result) {
         toast.success("Task deleted successfully!");
-        // window.location.href = "/tasks";
+        window.location.href = "/tasks";
       }
     }
   }

@@ -47,6 +47,5 @@ export const updateTask = safeRun(async (id: number, task: Partial<Task>): Promi
 });
 
 export const deleteTask = safeRun(async (id: number): Promise<boolean> => {
-  return (await del(`/api/tasks/9999`)) !== null;
-  // return (await del(`/api/tasks/${id}`)) !== null;
+  return (await del(`/api/tasks/${id}`)) !== null;
 });
