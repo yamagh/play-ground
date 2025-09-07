@@ -1,11 +1,11 @@
-import { toast } from '../stores/toast';
+import { message } from '../stores/message';
 
 export function setupGlobalErrorHandler() {
   window.addEventListener('error', (event) => {
-    toast.error(`Unhandled error: ${event.message}`);
+    message.error(`Unhandled error: ${event.message}`);
   });
 
   window.addEventListener('unhandledrejection', (event) => {
-    toast.error(`Unhandled promise rejection: ${event.reason}`);
+    message.error(`Unhandled promise rejection: ${event.reason}`);
   });
 }

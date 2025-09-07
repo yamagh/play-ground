@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Container } from "@sveltestrap/sveltestrap";
-  import ToastContainer from "../components/layouts/ToastContainer.svelte";
+  import MessageContainer from "../components/layouts/MessageContainer.svelte";
 
   let {
     title,
@@ -53,4 +53,4 @@
   }
 </style>
 
-<ToastContainer />
+<MessageContainer />

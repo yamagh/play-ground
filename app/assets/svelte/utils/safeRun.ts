@@ -1,4 +1,4 @@
-import { toast } from '../stores/toast';
+import { message as messageStore } from '../stores/message';
 
 // APIエラーなど、構造化されたエラーレスポンスを想定
 interface ApiError {
@@ -22,7 +22,7 @@ export function safeRun<T extends (...args: any[]) => Promise<any>>(fn: T) {
     } catch (error) {
       console.error(error);
       const message = extractErrorMessage(error);
-      toast.error(message);
+      messageStore.error(message);
     }
   } as T;
 }

@@ -1,31 +1,30 @@
 import { writable } from 'svelte/store';
 
-export type Toast = {
+export type Message = {
   id: number;
   message: string;
   type: 'success' | 'error' | 'info' | 'primary' | 'secondary' | 'danger' | 'warning' | 'light' | 'dark';
 };
 
-const { subscribe, update } = writable<Toast[]>([]);
+const { subscribe, update } = writable<Message[]>([]);
 
 let nextId = 0;
 
-const add = (message: string, type: Toast['type'] = 'info') => {
-  update((toasts) => {
-    console.log('add toast', message, type);
+const add = (message: string, type: Message['type'] = 'info') => {
+  update((messages) => {
     // To avoid displaying duplicate messages at the same time.
-    if (toasts.some(toast => toast.message === message)) {
-      return toasts;
+    if (messages.some(msg => msg.message === message)) {
+      return messages;
     }
-    return [...toasts, { id: nextId++, message, type }];
+    return [...messages, { id: nextId++, message, type }];
   });
 };
 
 const remove = (id: number) => {
-  update((toasts) => toasts.filter((t) => t.id !== id));
+  update((messages) => messages.filter((t) => t.id !== id));
 };
 
-export const toast = {
+export const message = {
   subscribe,
   add,
   remove,

@@ -15,7 +15,7 @@
   import PageContainer from "@/layouts/PageContainer.svelte";
   import { onMount } from "svelte";
   import { createTask, findTask, updateTask, deleteTask, type Task } from "../tasks/api";
-  import { toast } from "@/stores/toast";
+  import { message } from "@/stores/message";
 
   let task: Partial<Task> = {};
   let id: number | null = null;
@@ -41,7 +41,7 @@
       result = await createTask(task);
     }
     if (result) {
-      toast.success("Task saved successfully!");
+      message.success("Task saved successfully!");
       window.location.href = "/tasks";
     }
   }
@@ -52,7 +52,7 @@
     if (window.confirm("Are you sure you want to delete this task?")) {
       const result = await deleteTask(id);
       if (result) {
-        toast.success("Task deleted successfully!");
+        message.success("Task deleted successfully!");
         window.location.href = "/tasks";
       }
     }
