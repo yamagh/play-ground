@@ -1,4 +1,4 @@
-import { fetchJson, postJson } from "@/utils/api";
+import { fetchJson, postJson, putJson } from "@/utils/api";
 import type { PagedResult } from "@/utils/api";
 
 export type Task = {
@@ -42,12 +42,6 @@ export async function createTask(task: Partial<Task>): Promise<Task | null> {
 }
 
 export async function updateTask(id: number, task: Partial<Task>): Promise<Task | null> {
-  return await fetchJson<Task>(`/api/tasks/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(task),
-  });
+  return await putJson<Task>(`/api/tasks/${id}`, task);
 }
 

@@ -34,7 +34,7 @@ export function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T
   return _fetch(endpoint, options);
 }
 
-export function postJson<T>(endpoint: string, data: unknown): Promise<T | null> {
+function _sendJson<T>(method: 'POST' | 'PUT', endpoint: string, data: unknown): Promise<T | null> {
   const csrf = document.getElementById("app")?.attributes.getNamedItem("csrf")?.value;
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
@@ -43,10 +43,18 @@ export function postJson<T>(endpoint: string, data: unknown): Promise<T | null> 
     headers['Csrf-Token'] = csrf;
   }
   return _fetch(endpoint, {
-    method: 'POST',
+    method,
     headers,
     body: JSON.stringify(data),
   });
+}
+
+export function postJson<T>(endpoint: string, data: unknown): Promise<T | null> {
+  return _sendJson('POST', endpoint, data);
+}
+
+export function putJson<T>(endpoint: string, data: unknown): Promise<T | null> {
+  return _sendJson('PUT', endpoint, data);
 }
 
 export type PagedResult<T> = {
