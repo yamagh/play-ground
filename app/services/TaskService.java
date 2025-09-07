@@ -60,7 +60,7 @@ public class TaskService {
         return taskRepository.insert(task);
     }
 
-    public CompletionStage<Optional<Task>> update(Long id, Task task) {
+    public CompletionStage<Task> update(Long id, Task task) {
         return taskRepository.update(id, task);
     }
 

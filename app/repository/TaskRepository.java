@@ -7,6 +7,7 @@ import io.ebean.Query;
 import models.Task;
 
 import javax.inject.Inject;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
@@ -55,20 +56,19 @@ public class TaskRepository {
         }, executionContext);
     }
 
-    public CompletionStage<Optional<Task>> update(Long id, Task newData) {
+    public CompletionStage<Task> update(Long id, Task newData) {
         return supplyAsync(() -> {
-            Optional<Task> optionalTask = DB.find(Task.class).where().eq("id", id).findOneOrEmpty();
-            if (optionalTask.isPresent()) {
-                Task task = optionalTask.get();
-                task.setTitle(newData.getTitle());
-                task.setStatus(newData.getStatus());
-                task.setDueDate(newData.getDueDate());
-                task.setPriority(newData.getPriority());
-                task.setOwnerId(newData.getOwnerId());
-                task.update();
-                return Optional.of(task);
+            Task task = DB.find(Task.class).setId(id).findOne();
+            if (task == null) {
+                throw new EntityNotFoundException("Task not found with id: " + id);
             }
-            return Optional.empty();
+            task.setTitle(newData.getTitle());
+            task.setStatus(newData.getStatus());
+            task.setDueDate(newData.getDueDate());
+            task.setPriority(newData.getPriority());
+            task.setOwnerId(newData.getOwnerId());
+            task.update();
+            return task;
         }, executionContext);
     }
 
