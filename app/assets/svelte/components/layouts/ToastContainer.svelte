@@ -1,33 +1,47 @@
 <script lang="ts">
   import { Button, Toast, ToastBody } from '@sveltestrap/sveltestrap';
-  import { toast, hideToast } from '../../stores/toast.ts';
+  import { toast } from '../../stores/toast';
+  import type { Toast as ToastType } from '../../stores/toast';
 
-  let show = false;
-  let message = '';
-  let color = 'primary';
+  let toasts: ToastType[] = [];
 
   toast.subscribe((value) => {
-    show = value.show;
-    message = value.message;
-    color = value.color;
-    if (show) {
-      setTimeout(() => {
-        hideToast();
-      }, 5000);
-    }
+    toasts = value;
   });
+
+  const removeToast = (id: number) => {
+    toast.remove(id);
+  };
+
+  const colorMap = {
+    success: 'success',
+    error: 'danger',
+    info: 'info',
+    warning: 'warning',
+    primary: 'primary',
+    secondary: 'secondary',
+    danger: 'danger',
+    light: 'light',
+    dark: 'dark'
+  };
 </script>
 
-{#if show}
-  <div
-    class="top-0 start-50 translate-middle-x position-fixed m-3"
-    style="z-index: 1100"
-  >
-    <Toast isOpen={show} color={color} class="text-bg-{color}">
+<div
+  class="top-0 start-50 translate-middle-x position-fixed m-3"
+  style="z-index: 1100"
+>
+  {#each toasts as { id, message, type } (id)}
+    {@const color = colorMap[type] || 'primary'}
+    <Toast isOpen={true} {color} class="text-bg-{color} mb-2">
       <div class="d-flex">
         <ToastBody>{message}</ToastBody>
-        <Button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></Button>
+        <Button
+          type="button"
+          class="btn-close btn-close-white me-2 m-auto"
+          aria-label="Close"
+          onclick={() => removeToast(id)}
+        />
       </div>
     </Toast>
-  </div>
-{/if}
+  {/each}
+</div>

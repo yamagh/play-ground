@@ -41,11 +41,8 @@
       result = await createTask(task);
     }
     if (result) {
-      toast.set({
-        type: "success",
-        message: "Task saved successfully!",
-      });
-      window.location.href = "/tasks";
+      toast.success("Task saved successfully!");
+      // window.location.href = "/tasks";
     }
   }
 
@@ -54,16 +51,8 @@
     if (window.confirm("Are you sure you want to delete this task?")) {
       const result = await deleteTask(id);
       if (result) {
-        toast.set({
-          type: "success",
-          message: "Task deleted successfully!",
-        });
-        window.location.href = "/tasks";
-      } else {
-        toast.set({
-          type: "danger",
-          message: "Failed to delete task.",
-        });
+        toast.success("Task deleted successfully!");
+        // window.location.href = "/tasks";
       }
     }
   }
@@ -112,7 +101,7 @@
               <div class="text-end">
                 <Button color="secondary" href="/tasks">Cancel</Button>
                 {#if id}
-                  <Button color="danger" class="ms-2" on:click={handleDelete}>Delete</Button>
+                  <Button color="danger" class="ms-2" onclick={handleDelete}>Delete</Button>
                 {/if}
                 <Button color="primary" type="submit" class="ms-2">Save</Button>
               </div>

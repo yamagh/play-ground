@@ -2,6 +2,7 @@
   import { Icon } from '@sveltestrap/sveltestrap';
   import { UserInfo, AppTitle, VerticalMenu } from '@/components';
   import { menuItemList } from '@/layouts/MenuItem';
+  import { setupGlobalErrorHandler } from '@/utils/globalErrorHandler';
 
   const appTitleItem = menuItemList.find(item => item.isAppTitle);
 
@@ -11,6 +12,8 @@
     sidebarOpened = true,
     children = ()=>{}
   } = $props()
+
+  setupGlobalErrorHandler();
 </script>
 
 <div class="fixed-top shadow-sm border-bottom p-2 d-flex justify-content-between bg-white align-items-center fs-5">

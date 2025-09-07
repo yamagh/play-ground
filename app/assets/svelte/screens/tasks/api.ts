@@ -1,5 +1,6 @@
 import { get, post, put, del } from "@/utils/api";
 import type { PagedResult } from "@/utils/api";
+import { safeRun } from "@/utils/safeRun";
 
 export type Task = {
   id: number;
@@ -19,7 +20,7 @@ export interface SearchCondition {
   statuses?: string[];
 }
 
-export async function findTasks(page: number, perPage: number, condition: SearchCondition = {}): Promise<Page<Task> | null> {
+export const findTasks = safeRun(async (page: number, perPage: number, condition: SearchCondition = {}): Promise<Page<Task> | null> => {
   const params = new URLSearchParams({
     page: page.toString(),
     perPage: perPage.toString(),
@@ -31,20 +32,21 @@ export async function findTasks(page: number, perPage: number, condition: Search
     condition.statuses.forEach(s => params.append("statuses", s));
   }
   return await get<PagedResult<Task>>(`/api/tasks?${params.toString()}`);
-}
+});
 
-export async function findTask(id: number): Promise<Task | null> {
+export const findTask = safeRun(async (id: number): Promise<Task | null> => {
   return await get<Task>(`/api/tasks/${id}`);
-}
+});
 
-export async function createTask(task: Partial<Task>): Promise<Task | null> {
+export const createTask = safeRun(async (task: Partial<Task>): Promise<Task | null> => {
   return await post<Task>("/api/tasks", task);
-}
+});
 
-export async function updateTask(id: number, task: Partial<Task>): Promise<Task | null> {
+export const updateTask = safeRun(async (id: number, task: Partial<Task>): Promise<Task | null> => {
   return await put<Task>(`/api/tasks/${id}`, task);
-}
+});
 
-export async function deleteTask(id: number): Promise<boolean> {
-  return (await del(`/api/tasks/${id}`)) !== null;
-}
+export const deleteTask = safeRun(async (id: number): Promise<boolean> => {
+  return (await del(`/api/tasks/9999`)) !== null;
+  // return (await del(`/api/tasks/${id}`)) !== null;
+});

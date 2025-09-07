@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Icon } from '@sveltestrap/sveltestrap';
   import { UserInfo, AppTitle, VerticalMenu } from '@/components';
+  import { setupGlobalErrorHandler } from '@/utils/globalErrorHandler';
 
   let {
     activeMenu = "Home",
@@ -8,6 +9,8 @@
     sidebarOpened = true,
     children = ()=>{}
   } = $props()
+
+  setupGlobalErrorHandler();
 </script>
 
 <div class="vh-100 d-flex">

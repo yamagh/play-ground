@@ -1,33 +1,20 @@
-import { showToast } from '../stores/toast';
-
 async function _fetch<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
-  try {
-    const response = await fetch(endpoint, options);
+  const response = await fetch(endpoint, options);
 
-    if (response.ok) {
-      const text = await response.text();
-      return text ? (JSON.parse(text) as T) : ({} as T); // Return empty object for null text
-    }
-
-    let message: string | undefined;
-    try {
-      const error = await response.json();
-      message = error.message;
-    } catch (e) {
-      // ignore if response is not json
-    }
-
-    if (response.status >= 500) {
-      showToast(message || '予期しないエラーが発生しました。', 'danger');
-    } else {
-      showToast(message || `Error: ${response.status} ${response.statusText}`, 'danger');
-    }
-    return null;
-  } catch (error) {
-    console.error('API call error:', error);
-    showToast('A network error occurred.', 'danger');
-    return null;
+  if (response.ok) {
+    const text = await response.text();
+    return text ? (JSON.parse(text) as T) : ({} as T); // Return empty object for null text
   }
+
+  let message: string | undefined;
+  try {
+    const error = await response.json();
+    message = error.message;
+  } catch (e) {
+    // ignore if response is not json
+  }
+
+  throw new Error(message || `Error: ${response.status} ${response.statusText}`);
 }
 
 async function _request<T>(
