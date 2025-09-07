@@ -46,12 +46,5 @@ export async function updateTask(id: number, task: Partial<Task>): Promise<Task 
 }
 
 export async function deleteTask(id: number): Promise<boolean> {
-  try {
-    const response = await del(`/api/tasks/${id}`);
-    return response !== null;
-  } catch (error) {
-    console.error("Failed to delete task:", error);
-    return false;
-  }
+  return (await del(`/api/tasks/${id}`)) !== null;
 }
-
