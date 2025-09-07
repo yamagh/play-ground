@@ -55,10 +55,20 @@ public class TaskRepository {
         }, executionContext);
     }
 
-    public CompletionStage<Task> update(Task task) {
+    public CompletionStage<Optional<Task>> update(Long id, Task newData) {
         return supplyAsync(() -> {
-            DB.update(task);
-            return task;
+            Optional<Task> optionalTask = DB.find(Task.class).where().eq("id", id).findOneOrEmpty();
+            if (optionalTask.isPresent()) {
+                Task task = optionalTask.get();
+                task.setTitle(newData.getTitle());
+                task.setStatus(newData.getStatus());
+                task.setDueDate(newData.getDueDate());
+                task.setPriority(newData.getPriority());
+                task.setOwnerId(newData.getOwnerId());
+                task.update();
+                return Optional.of(task);
+            }
+            return Optional.empty();
         }, executionContext);
     }
 

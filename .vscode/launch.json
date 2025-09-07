@@ -4,9 +4,17 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "localhost に対して Chrome を起動する",
+      "name": "Svelte をデバッグ",
       "url": "http://localhost:9000",
       "webRoot": "${workspaceFolder}"
-    }
+    },
+    {
+      "type": "java",
+      "request": "attach",
+      "name": "Play をデバッグ",
+      "port": 5005,
+      "hostName": "localhost",
+      // sbt -jvm-debug 5005 run
+    },
   ]
 }

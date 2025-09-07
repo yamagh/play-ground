@@ -21,6 +21,7 @@ lazy val root = (project in file("."))
       jdbc,
       "com.h2database" % "h2" % "2.3.232",
       "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % Test,
+      "org.projectlombok" % "lombok" % "1.18.40" % Provided,
     ),
     svelte / SvelteKeys.webpackBinary := {
       if (isWin) {

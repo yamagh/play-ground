@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -59,9 +60,8 @@ public class TaskService {
         return taskRepository.insert(task);
     }
 
-    public CompletionStage<Task> update(Long id, Task task) {
-        task.id = id;
-        return taskRepository.update(task);
+    public CompletionStage<Optional<Task>> update(Long id, Task task) {
+        return taskRepository.update(id, task);
     }
 
     public CompletionStage<String> exportCsv(String title, List<String> statuses) {

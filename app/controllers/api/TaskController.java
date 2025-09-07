@@ -55,8 +55,9 @@ public class TaskController extends Controller {
     public CompletionStage<Result> update(Http.Request request, Long id) {
         JsonNode json = request.body().asJson();
         Task task = Json.fromJson(json, Task.class);
-        return taskService.update(id, task).thenApply(updatedTask ->
-            ok(Json.toJson(updatedTask))
+        return taskService.update(id, task).thenApply(taskOpt ->
+            taskOpt.map(updatedTask -> ok(Json.toJson(updatedTask)))
+                .orElse(notFound())
         );
     }
 
