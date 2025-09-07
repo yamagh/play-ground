@@ -35,11 +35,16 @@ export function fetchJson<T>(endpoint: string, options?: RequestInit): Promise<T
 }
 
 export function postJson<T>(endpoint: string, data: unknown): Promise<T | null> {
+  const csrf = document.getElementById("app")?.attributes.getNamedItem("csrf")?.value;
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
+  if (csrf) {
+    headers['Csrf-Token'] = csrf;
+  }
   return _fetch(endpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify(data),
   });
 }

@@ -35,7 +35,7 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
 
         if (request.path().startsWith("/api/")) {
             ObjectNode result = Json.newObject();
-            result.put("message", "サーバーで予期しないエラーが発生しました。");
+            result.put("message", "予期しないエラーが発生しました。");
             return CompletableFuture.completedFuture(
                 Results.internalServerError(result)
             );

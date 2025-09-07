@@ -9,7 +9,7 @@
     onSubmit?: (form: HTMLFormElement) => Promise<any>
   }>()
 
-  const csrf = document.getElementById("app")?.attributes.csrf.value
+  const csrf = document.getElementById("app")?.attributes.getNamedItem("csrf")?.value
 
   const submit = async (form: HTMLFormElement) => {
     const formData = new FormData(form);

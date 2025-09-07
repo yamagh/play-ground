@@ -32,23 +32,20 @@
     }
   });
 
-  async function handleSave() {
-    try {
-      if (id) {
-        await updateTask(id, task);
-      } else {
-        await createTask(task);
-      }
+  async function handleSave(event: SubmitEvent) {
+    event.preventDefault();
+    let result;
+    if (id) {
+      result = await updateTask(id, task);
+    } else {
+      result = await createTask(task);
+    }
+    if (result) {
       toast.set({
         type: "success",
         message: "Task saved successfully!",
       });
       window.location.href = "/tasks";
-    } catch (e) {
-      toast.set({
-        type: "danger",
-        message: "Failed to save task.",
-      });
     }
   }
 </script>
@@ -60,7 +57,7 @@
         <Card>
           <CardHeader>{id ? `Edit Task #${id}` : 'Create New Task'}</CardHeader>
           <CardBody>
-            <Form onSubmit={handleSave}>
+            <Form onsubmit={handleSave}>
               <FormGroup>
                 <Label for="title">Title</Label>
                 <Input id="title" type="text" bind:value={task.title} required />
@@ -94,7 +91,7 @@
                 </Input>
               </FormGroup>
               <div class="text-end">
-                <Button color="secondary" href="/tasks" tag="a">Cancel</Button>
+                <Button color="secondary" href="/tasks">Cancel</Button>
                 <Button color="primary" type="submit" class="ms-2">Save</Button>
               </div>
             </Form>
