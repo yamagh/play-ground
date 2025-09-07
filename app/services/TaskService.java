@@ -64,6 +64,10 @@ public class TaskService {
         return taskRepository.update(id, task);
     }
 
+    public CompletionStage<Task> delete(Long id) {
+        return taskRepository.delete(id);
+    }
+
     public CompletionStage<String> exportCsv(String title, List<String> statuses) {
         return taskRepository.findAll(title, statuses).thenApply(tasks -> {
             List<String> headers = Arrays.asList("ID", "Title", "Status", "Owner", "Due Date", "Priority", "Created On");

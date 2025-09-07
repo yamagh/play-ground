@@ -14,7 +14,7 @@
   import LayoutSideMenu from "@/layouts/LayoutSideMenu.svelte";
   import PageContainer from "@/layouts/PageContainer.svelte";
   import { onMount } from "svelte";
-  import { createTask, findTask, updateTask, type Task } from "../tasks/api";
+  import { createTask, findTask, updateTask, deleteTask, type Task } from "../tasks/api";
   import { toast } from "@/stores/toast";
 
   let task: Partial<Task> = {};
@@ -46,6 +46,25 @@
         message: "Task saved successfully!",
       });
       window.location.href = "/tasks";
+    }
+  }
+
+  async function handleDelete() {
+    if (!id) return;
+    if (window.confirm("Are you sure you want to delete this task?")) {
+      const result = await deleteTask(id);
+      if (result) {
+        toast.set({
+          type: "success",
+          message: "Task deleted successfully!",
+        });
+        window.location.href = "/tasks";
+      } else {
+        toast.set({
+          type: "danger",
+          message: "Failed to delete task.",
+        });
+      }
     }
   }
 </script>
@@ -92,6 +111,9 @@
               </FormGroup>
               <div class="text-end">
                 <Button color="secondary" href="/tasks">Cancel</Button>
+                {#if id}
+                  <Button color="danger" class="ms-2" on:click={handleDelete}>Delete</Button>
+                {/if}
                 <Button color="primary" type="submit" class="ms-2">Save</Button>
               </div>
             </Form>

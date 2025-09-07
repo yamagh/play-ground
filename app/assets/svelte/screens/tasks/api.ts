@@ -1,4 +1,4 @@
-import { fetchJson, postJson, putJson } from "@/utils/api";
+import { fetchJson, postJson, putJson, deleteJson } from "@/utils/api";
 import type { PagedResult } from "@/utils/api";
 
 export type Task = {
@@ -43,5 +43,15 @@ export async function createTask(task: Partial<Task>): Promise<Task | null> {
 
 export async function updateTask(id: number, task: Partial<Task>): Promise<Task | null> {
   return await putJson<Task>(`/api/tasks/${id}`, task);
+}
+
+export async function deleteTask(id: number): Promise<boolean> {
+  try {
+    const response = await deleteJson(`/api/tasks/${id}`);
+    return response !== null;
+  } catch (error) {
+    console.error("Failed to delete task:", error);
+    return false;
+  }
 }
 

@@ -1,6 +1,7 @@
 package controllers.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import controllers.actions.Authenticated;
 import models.Task;
 import play.libs.Json;
 import play.mvc.Controller;
@@ -25,6 +26,7 @@ public class TaskController extends Controller {
         this.taskService = taskService;
     }
 
+    @Authenticated
     public CompletionStage<Result> find(Http.Request request) {
         int page = request.queryString("page").map(Integer::parseInt).orElse(1);
         int perPage = request.queryString("perPage").map(Integer::parseInt).orElse(10);
@@ -37,6 +39,7 @@ public class TaskController extends Controller {
             .thenApply(result -> ok(result));
     }
 
+    @Authenticated
     public CompletionStage<Result> findById(Http.Request request, Long id) {
         return taskService.findById(id).thenApply(taskOpt ->
             taskOpt.map(task -> ok(Json.toJson(task)))
@@ -44,6 +47,7 @@ public class TaskController extends Controller {
         );
     }
 
+    @Authenticated
     public CompletionStage<Result> create(Http.Request request) {
         JsonNode json = request.body().asJson();
         Task task = Json.fromJson(json, Task.class);
@@ -52,6 +56,7 @@ public class TaskController extends Controller {
         );
     }
 
+    @Authenticated
     public CompletionStage<Result> update(Http.Request request, Long id) {
         JsonNode json = request.body().asJson();
         Task task = Json.fromJson(json, Task.class);
@@ -60,6 +65,18 @@ public class TaskController extends Controller {
         );
     }
 
+    @Authenticated
+    public CompletionStage<Result> delete(Long id) {
+        return taskService.delete(id).thenApply(task -> {
+            if (task != null) {
+                return ok(Json.toJson(task));
+            } else {
+                return notFound();
+            }
+        });
+    }
+
+    @Authenticated
     public CompletionStage<Result> exportCsv(Http.Request request) {
         String title = request.queryString("title").orElse(null);
         List<String> statuses = Optional.ofNullable(request.queryString().get("statuses"))

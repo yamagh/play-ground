@@ -26,6 +26,7 @@ public class TaskRepository {
         return supplyAsync(() -> {
             Query<Task> query = DB.find(Task.class);
             ExpressionList<Task> where = query.where();
+            where.eq("isActive", true);
             if (title != null && !title.isEmpty()) {
                 where.ilike("title", "%" + title + "%");
             }
@@ -72,10 +73,23 @@ public class TaskRepository {
         }, executionContext);
     }
 
+    public CompletionStage<Task> delete(Long id) {
+        return supplyAsync(() -> {
+            Task task = DB.find(Task.class).setId(id).findOne();
+            if (task == null) {
+                throw new EntityNotFoundException("Task not found with id: " + id);
+            }
+            task.setIsActive(false);
+            task.update();
+            return task;
+        }, executionContext);
+    }
+
     public CompletionStage<List<Task>> findAll(String title, List<String> statuses) {
         return supplyAsync(() -> {
             Query<Task> query = DB.find(Task.class);
             ExpressionList<Task> where = query.where();
+            where.eq("isActive", true);
             if (title != null && !title.isEmpty()) {
                 where.ilike("title", "%" + title + "%");
             }

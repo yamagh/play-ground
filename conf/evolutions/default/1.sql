@@ -13,6 +13,7 @@ create table app_user (
   created_by                varchar(255),
   updated_by                varchar(255),
   deleted_by                varchar(255),
+  is_active                 boolean       default true not null,
   constraint pk_app_user primary key (id)
 );
 
@@ -33,6 +34,7 @@ create table task (
   created_by                varchar(255),
   updated_by                varchar(255),
   deleted_by                varchar(255),
+  is_active                 boolean       default true not null,
   constraint pk_task primary key (id)
 );
 

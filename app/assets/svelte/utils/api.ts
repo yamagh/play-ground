@@ -6,7 +6,7 @@ async function _fetch<T>(endpoint: string, options?: RequestInit): Promise<T | n
 
     if (response.ok) {
       const text = await response.text();
-      return text ? (JSON.parse(text) as T) : null;
+      return text ? (JSON.parse(text) as T) : ({} as T); // Return empty object for null text
     }
 
     let message: string | undefined;
@@ -55,6 +55,18 @@ export function postJson<T>(endpoint: string, data: unknown): Promise<T | null> 
 
 export function putJson<T>(endpoint: string, data: unknown): Promise<T | null> {
   return _sendJson('PUT', endpoint, data);
+}
+
+export function deleteJson<T>(endpoint: string): Promise<T | null> {
+  const csrf = document.getElementById("app")?.attributes.getNamedItem("csrf")?.value;
+  const headers: HeadersInit = {};
+  if (csrf) {
+    headers['Csrf-Token'] = csrf;
+  }
+  return _fetch(endpoint, {
+    method: 'DELETE',
+    headers,
+  });
 }
 
 export type PagedResult<T> = {

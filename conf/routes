@@ -15,3 +15,4 @@ GET     /api/tasks/export           controllers.api.TaskController.exportCsv(req
 GET     /api/tasks/:id              controllers.api.TaskController.findById(request: Request, id: Long)
 POST    /api/tasks                  controllers.api.TaskController.create(request: Request)
 PUT     /api/tasks/:id              controllers.api.TaskController.update(request: Request, id: Long)
+DELETE  /api/tasks/:id              controllers.api.TaskController.delete(id: Long)

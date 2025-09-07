@@ -8,8 +8,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 @MappedSuperclass
+@Getter
+@Setter
 public class BaseModel extends Model {
 
     @Id
@@ -29,4 +33,7 @@ public class BaseModel extends Model {
     public String updatedBy;
 
     public String deletedBy;
+
+    @io.ebean.annotation.NotNull
+    public Boolean isActive = true;
 }
