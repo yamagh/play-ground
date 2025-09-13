@@ -11,7 +11,7 @@
   import { LayoutSideMenu3 } from '@/layouts';
   import PageContainer from '@/layouts/PageContainer.svelte';
   import SearchBoxWithFilters from '@/components/SearchBoxWithFilters/SearchBoxWithFilters.svelte';
-  import Pagination from '@/components/common/Pagination.svelte';
+  import PaginationWithTotal from '@/components/common/PaginationWithTotal.svelte';
   import { onMount } from "svelte";
   import { findTasks, type Task } from "./api";
 
@@ -128,16 +128,7 @@
       </tbody>
     </Table>
 
-    <div class="d-flex justify-content-between mt-3">
-      <div>
-        {#if total > 0}
-          <small>Total: {total} records</small>
-        {/if}
-      </div>
-      <div>
-        <Pagination {page} {total} {perPage} on:change={handlePageChange} />
-      </div>
-    </div>
+    <PaginationWithTotal {page} {total} {perPage} onchange={handlePageChange} />
   </PageContainer>
 </LayoutSideMenu3>
 
