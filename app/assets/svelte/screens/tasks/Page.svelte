@@ -8,23 +8,21 @@
     Row,
     Table,
   } from "@sveltestrap/sveltestrap";
-  import { LayoutSideMenu3 } from '@/layouts';
-  import PageContainer from '@/layouts/PageContainer.svelte';
+  import { LayoutSideMenu3, PageContainer } from '@/layouts';
   import SearchBoxWithFilters from '@/components/SearchBoxWithFilters/SearchBoxWithFilters.svelte';
   import PaginationWithTotal from '@/components/common/PaginationWithTotal.svelte';
   import { onMount } from "svelte";
   import { findTasks, type Task } from "./api";
 
-  let title = "";
-  let statuses: string[] = [];
-  let tasks: Task[] = [];
-  let filterIsOpen = false;
-  let total = 0;
-  let page = 1;
+  let title = $state("");
+  let statuses = $state<string[]>([]);
+  let tasks = $state<Task[]>([]);
+  let filterIsOpen = $state(false);
+  let total = $state(0);
+  let page = $state(1);
   const perPage = 10;
-  let exportUrl = '';
 
-  $: {
+  const exportUrl = $derived(() => {
     const params = new URLSearchParams();
     if (title) {
       params.append("title", title);
@@ -32,8 +30,8 @@
     if (statuses && statuses.length > 0) {
       statuses.forEach(s => params.append("statuses", s));
     }
-    exportUrl = `/api/tasks/export?${params.toString()}`;
-  }
+    return `/api/tasks/export?${params.toString()}`;
+  });
 
   onMount(async () => {
     await loadTasks();
@@ -96,12 +94,12 @@
         <Button color="primary" class="text-nowrap" href="/tasks/new" tag="a">
           <Icon name="plus-circle-fill" class="me-1"/> Add New Task
         </Button>
-        <a href={exportUrl} class="btn btn-secondary text-nowrap" download="tasks.csv">
+        <a href={exportUrl()} class="btn btn-secondary text-nowrap" download="tasks.csv">
           <Icon name="download" class="me-1"/> CSV Export
         </a>
       </div>
     {/snippet}
-    <Table hover>
+    <Table hover bordered striped>
       <thead>
       <tr>
         <th>ID</th>
