@@ -34,7 +34,10 @@
     "webpack-hot-middleware": "2.26.1"
   },
   "scripts": {
-    "hmr": "cross-env NODE_PATH=./node_modules ENABLE_HMR=true node hmr.js"
+    "hmr": "cross-env NODE_PATH=./node_modules ENABLE_HMR=true node hmr.js",
+    "messages": "node ./scripts/generate-messages.js",
+    "dev": "npm run messages && webpack --mode development --watch",
+    "build": "npm run messages && webpack --mode production"
   },
   "dependencies": {
     "@sveltestrap/sveltestrap": "^7.1.0",

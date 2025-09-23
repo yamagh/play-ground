@@ -16,6 +16,7 @@
   import { onMount } from "svelte";
   import { createTask, findTask, updateTask, deleteTask, type Task } from "../tasks/api";
   import { message } from "@/stores/message";
+  import { t } from "@/stores/i18n";
 
   let task: Partial<Task> = {};
   let id: number | null = null;
@@ -41,7 +42,8 @@
       result = await createTask(task);
     }
     if (result) {
-      message.success("Task saved successfully!");
+      message.success($t('success.saved'));
+      // message.success("Task saved successfully!");
       window.location.href = "/tasks";
     }
   }
