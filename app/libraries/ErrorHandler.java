@@ -6,6 +6,8 @@ import play.Environment;
 import play.api.OptionalSourceMapper;
 import play.api.routing.Router;
 import play.http.DefaultHttpErrorHandler;
+import play.i18n.Langs;
+import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.Http.RequestHeader;
 import play.mvc.Result;
@@ -23,10 +25,12 @@ import java.util.concurrent.CompletionStage;
 public class ErrorHandler extends DefaultHttpErrorHandler {
 
     private final Logger logger = LoggerFactory.getLogger("application.ErrorHandler");
+    private final MessagesApi messagesApi;
 
     @Inject
-    public ErrorHandler(Config config, Environment env, OptionalSourceMapper sourceMapper, Provider<Router> routes) {
+    public ErrorHandler(Config config, Environment env, OptionalSourceMapper sourceMapper, Provider<Router> routes, MessagesApi messagesApi) {
         super(config, env, sourceMapper, routes);
+        this.messagesApi = messagesApi;
     }
 
     @Override
@@ -35,7 +39,8 @@ public class ErrorHandler extends DefaultHttpErrorHandler {
 
         if (request.path().startsWith("/api/")) {
             ObjectNode result = Json.newObject();
-            result.put("message", "予期しないエラーが発生しました。");
+            final var messages = messagesApi.preferred(request);
+            result.put("message", messages.at("error.unexpected"));
             return CompletableFuture.completedFuture(
                 Results.internalServerError(result)
             );
