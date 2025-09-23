@@ -11,7 +11,7 @@
     Label,
     Row,
   } from "@sveltestrap/sveltestrap";
-  import LayoutSideMenu from "@/layouts/LayoutSideMenu.svelte";
+  import LayoutSideMenu3 from "@/layouts/LayoutSideMenu3.svelte";
   import PageContainer from "@/layouts/PageContainer.svelte";
   import { onMount } from "svelte";
   import { createTask, findTask, updateTask, deleteTask, type Task } from "../tasks/api";
@@ -61,7 +61,7 @@
   }
 </script>
 
-<LayoutSideMenu activeMenu="Tasks">
+<LayoutSideMenu3 activeHref="/tasks">
   <PageContainer title={id ? 'Edit Task' : 'New Task'}>
     <Row>
       <Col md={{ size: 8, offset: 2 }}>
@@ -114,4 +114,4 @@
       </Col>
     </Row>
   </PageContainer>
-</LayoutSideMenu>
+</LayoutSideMenu3>

@@ -1,14 +1,16 @@
 <script lang="ts">
-  import {
-    Icon,
-  } from '@sveltestrap/sveltestrap';
+  import { Icon } from '@sveltestrap/sveltestrap';
   import { menuItemList } from '@/layouts/MenuItem';
+  
+    let {
+      showAppTitle = false,
+      activeHref,
+    } = $props<{
+      showAppTitle?: boolean;
+      activeHref?: string;
+    }>()
 
-  const currentPath = window.location.pathname;
-
-  let {
-    showAppTitle = false,
-  } = $props()
+  const currentPath = activeHref || window.location.pathname;
 </script>
 
 <div class="d-flex flex-column flex-shrink-0 bg-white border-end sidebar px-3">

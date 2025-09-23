@@ -111,10 +111,6 @@ export const menuItemList: MenuItem[] = [
         label: "List Tasks",
         href: "/tasks",
       },
-      {
-        label: "Add Task",
-        href: "/tasks/add",
-      }
     ]
   },
 ]
