@@ -6,15 +6,20 @@ async function _fetch<T>(endpoint: string, options?: RequestInit): Promise<T | n
     return text ? (JSON.parse(text) as T) : ({} as T); // Return empty object for null text
   }
 
-  let message: string | undefined;
+  let message: string;
   try {
     const error = await response.json();
-    message = error.message;
+    // Handle our specific error structure from the backend
+    if (error.errors) {
+      message = JSON.stringify({ errors: error.errors });
+    } else {
+      message = error.message || `Error: ${response.status} ${response.statusText}`;
+    }
   } catch (e) {
-    // ignore if response is not json
+    message = `Error: ${response.status} ${response.statusText}`;
   }
 
-  throw new Error(message || `Error: ${response.status} ${response.statusText}`);
+  throw new Error(message);
 }
 
 async function _request<T>(
@@ -34,8 +39,12 @@ async function _request<T>(
   };
 
   if (data) {
-    headers['Content-Type'] = 'application/json';
-    options.body = JSON.stringify(data);
+    if (data instanceof FormData) {
+      options.body = data;
+    } else {
+      headers['Content-Type'] = 'application/json';
+      options.body = JSON.stringify(data);
+    }
   }
 
   return _fetch(endpoint, options);
@@ -46,6 +55,10 @@ export function get<T>(endpoint: string, options?: RequestInit): Promise<T | nul
 }
 
 export function post<T>(endpoint: string, data: unknown): Promise<T | null> {
+  return _request('POST', endpoint, data);
+}
+
+export function postForm<T>(endpoint: string, data: FormData): Promise<T | null> {
   return _request('POST', endpoint, data);
 }
 

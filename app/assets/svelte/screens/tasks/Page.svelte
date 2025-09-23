@@ -11,6 +11,7 @@
   import { LayoutSideMenu3, PageContainer } from '@/layouts';
   import SearchBoxWithFilters from '@/components/SearchBoxWithFilters/SearchBoxWithFilters.svelte';
   import PaginationWithTotal from '@/components/common/PaginationWithTotal.svelte';
+  import CsvImportModal from '@/components/CsvImportModal.svelte';
   import { onMount } from "svelte";
   import { findTasks, type Task } from "./api";
 
@@ -21,6 +22,7 @@
   let total = $state(0);
   let page = $state(1);
   const perPage = 10;
+  let isImportModalOpen = $state(false);
 
   const exportUrl = $derived(() => {
     const params = new URLSearchParams();
@@ -60,6 +62,10 @@
     title = "";
     statuses = [];
   }
+
+  function handleImported() {
+    loadTasks();
+  }
 </script>
 
 <LayoutSideMenu3 activeMenu="Tasks">
@@ -93,6 +99,9 @@
         </SearchBoxWithFilters>
         <Button color="primary" class="text-nowrap" href="/tasks/new" tag="a">
           <Icon name="plus-circle-fill" class="me-1"/> Add New Task
+        </Button>
+        <Button color="success" class="text-nowrap" on:click={() => isImportModalOpen = true}>
+          <Icon name="upload" class="me-1"/> CSV Import
         </Button>
         <a href={exportUrl()} class="btn btn-secondary text-nowrap" download="tasks.csv">
           <Icon name="download" class="me-1"/> CSV Export
@@ -129,6 +138,14 @@
     <PaginationWithTotal {page} {total} {perPage} onchange={handlePageChange} />
   </PageContainer>
 </LayoutSideMenu3>
+
+<CsvImportModal 
+  bind:isOpen={isImportModalOpen} 
+  onImported={handleImported}
+  url="/api/tasks/import"
+  successMessage={(result) => `${result.count} tasks have been successfully imported.`}
+  modalTitle="Tasks CSV Import"
+/>
 
 <style>
 </style>

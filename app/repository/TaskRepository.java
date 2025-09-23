@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 import static java.util.concurrent.CompletableFuture.supplyAsync;
 
@@ -99,6 +100,27 @@ public class TaskRepository {
             return query
                 .fetch("owner")
                 .findList();
+        }, executionContext);
+    }
+
+    public CompletionStage<List<String>> findExistingTitles(List<String> titles) {
+        return supplyAsync(() ->
+            DB.find(Task.class)
+                .select("title")
+                .where()
+                .eq("isActive", true)
+                .in("title", titles)
+                .findList()
+                .stream()
+                .map(Task::getTitle)
+                .collect(Collectors.toList())
+        , executionContext);
+    }
+
+    public CompletionStage<Integer> batchInsert(List<Task> tasks) {
+        return supplyAsync(() -> {
+            DB.saveAll(tasks);
+            return tasks.size();
         }, executionContext);
     }
 }

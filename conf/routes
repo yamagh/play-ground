@@ -16,3 +16,4 @@ GET     /api/tasks/:id              controllers.api.TaskController.findById(requ
 POST    /api/tasks                  controllers.api.TaskController.create(request: Request)
 PUT     /api/tasks/:id              controllers.api.TaskController.update(request: Request, id: Long)
 DELETE  /api/tasks/:id              controllers.api.TaskController.delete(id: Long)
+POST    /api/tasks/import           controllers.api.TaskController.importCsv(request: Request)

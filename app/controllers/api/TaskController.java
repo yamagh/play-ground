@@ -1,8 +1,11 @@
 package controllers.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.actions.Authenticated;
+import libraries.CsvImportHandler;
 import models.Task;
+import play.libs.Files;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -15,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class TaskController extends Controller {
@@ -85,6 +89,26 @@ public class TaskController extends Controller {
 
         return taskService.exportCsv(title, statuses).thenApply(csv ->
             CsvResult.ok(csv, "tasks.csv")
+        );
+    }
+
+    @Authenticated
+    public CompletionStage<Result> importCsv(Http.Request request) {
+        return CsvImportHandler.handle(request, file ->
+            taskService.importCsv(file).thenApply(result -> {
+                if (result.left.isPresent()) {
+                    java.util.List<String> errors = result.left.get();
+                    ObjectNode errorJson = Json.newObject();
+                    errorJson.set("errors", Json.toJson(errors));
+                    return badRequest(errorJson);
+                } else {
+                    Integer count = result.right.get();
+                    ObjectNode successJson = Json.newObject();
+                    successJson.put("message", "CSV imported successfully.");
+                    successJson.put("imported_count", count);
+                    return ok(successJson);
+                }
+            })
         );
     }
 }
