@@ -12,6 +12,10 @@
   } = $props();
 </script>
 
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+
 <div class="position-relative page d-flex flex-column justify-content-between">
   <Container fluid={fluid} class="mt-4">
     {#if breadcrumbs}
