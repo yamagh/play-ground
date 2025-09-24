@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Container } from "@sveltestrap/sveltestrap";
+  import { Container, Icon } from "@sveltestrap/sveltestrap";
   import MessageContainer from "../components/layouts/MessageContainer.svelte";
 
   let {
@@ -9,7 +9,16 @@
     footer = ()=>{},
     children = ()=>{},
     fluid = false,
-  } = $props();
+    backHref = "",
+  } = $props<{
+    title?: string;
+    breadcrumbs?: () => void;
+    actions?: () => void;
+    footer?: () => void;
+    children?: () => void;
+    fluid?: boolean;
+    backHref?: string;
+  }>();
 </script>
 
 <svelte:head>
@@ -25,7 +34,12 @@
     {/if}
     {#if title || actions}
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="fs-1">
+        <div class="fs-1 d-flex align-items-center">
+          {#if backHref}
+            <div class="back-button me-2 text-secondary">
+              <a href={backHref} ><Icon name="arrow-left-short" /></a>
+            </div>
+          {/if}
           {title}
         </div>
         <div>
@@ -48,6 +62,8 @@
   {/if}
 </div>
 
+<MessageContainer />
+
 <style>
   .page {
     min-height: calc(100vh - 47px);
@@ -55,6 +71,9 @@
   footer {
     width: 100%;
   }
+  .back-button:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+  }
 </style>
-
-<MessageContainer />

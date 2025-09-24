@@ -62,7 +62,7 @@
 </script>
 
 <LayoutSideMenu3 activeHref="/tasks">
-  <PageContainer title={id ? 'Edit Task' : 'New Task'}>
+  <PageContainer title={id ? 'Edit Task' : 'New Task'} backHref="/tasks">
     <Row>
       <Col md={{ size: 8, offset: 2 }}>
         <Card>
