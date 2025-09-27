@@ -4,6 +4,8 @@
   import { message as messageStore } from '../../stores/message';
   import type { Message } from '../../stores/message';
 
+  let { showMessage = true } = $props<{ showMessage?: boolean }>();
+
   let messages: Message[] = [];
   const timers = new Map<number, number>();
 
@@ -11,29 +13,31 @@
     messageStore.remove(id);
   };
 
-  const unsubscribe = messageStore.subscribe((newMessages) => {
-    const newIds = new Set(newMessages.map(m => m.id));
-    const oldIds = new Set(messages.map(m => m.id));
+  const unsubscribe = showMessage
+    ? messageStore.subscribe((newMessages) => {
+        const newIds = new Set(newMessages.map((m) => m.id));
+        const oldIds = new Set(messages.map((m) => m.id));
 
-    // Clear timers for removed messages
-    for (const id of oldIds) {
-      if (!newIds.has(id) && timers.has(id)) {
-        clearTimeout(timers.get(id));
-        timers.delete(id);
-      }
-    }
+        // Clear timers for removed messages
+        for (const id of oldIds) {
+          if (!newIds.has(id) && timers.has(id)) {
+            clearTimeout(timers.get(id));
+            timers.delete(id);
+          }
+        }
 
-    // Set timers for new messages
-    for (const msg of newMessages) {
-      if (!oldIds.has(msg.id) && msg.duration) {
-        const timer = setTimeout(() => {
-          removeMessage(msg.id);
-        }, msg.duration);
-        timers.set(msg.id, timer);
-      }
-    }
-    messages = newMessages;
-  });
+        // Set timers for new messages
+        for (const msg of newMessages) {
+          if (!oldIds.has(msg.id) && msg.duration) {
+            const timer = setTimeout(() => {
+              removeMessage(msg.id);
+            }, msg.duration);
+            timers.set(msg.id, timer);
+          }
+        }
+        messages = newMessages;
+      })
+    : () => {};
 
   onDestroy(() => {
     timers.forEach(clearTimeout);

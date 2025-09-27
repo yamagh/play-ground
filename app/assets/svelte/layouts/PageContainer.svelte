@@ -10,6 +10,7 @@
     children = ()=>{},
     fluid = false,
     backHref = "",
+    showMessage = true,
   } = $props<{
     title?: string;
     breadcrumbs?: () => void;
@@ -18,6 +19,7 @@
     children?: () => void;
     fluid?: boolean;
     backHref?: string;
+    showMessage?: boolean;
   }>();
 </script>
 
@@ -62,7 +64,7 @@
   {/if}
 </div>
 
-<MessageContainer />
+<MessageContainer {showMessage}/>
 
 <style>
   .page {

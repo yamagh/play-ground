@@ -29,6 +29,8 @@
       const result = await findTask(id);
       if (result) {
         task = result;
+      } else {
+        window.location.href = "/not-found";
       }
     }
   });

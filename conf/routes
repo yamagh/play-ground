@@ -3,6 +3,8 @@ GET     /unauthorized               controllers.web.LoginController.unauthorized
 GET     /login                      controllers.web.LoginController.index(request: Request)
 POST    /login                      controllers.web.LoginController.login(request: Request)
 
+GET     /not-found                  controllers.web.NotFoundController.index(request: Request)
+
 GET     /tasks                      controllers.web.TaskController.index(request: Request)
 GET     /tasks/new                  controllers.web.TaskController.create(request: Request)
 GET     /tasks/:id/edit             controllers.web.TaskController.edit(request: Request, id: Long)
