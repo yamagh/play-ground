@@ -23,7 +23,6 @@
             <a
               href="#{item.label}-collapse"
               data-bs-toggle="collapse"
-              aria-expanded={item.children.some(c => c.href === currentPath)}
               class="nav-link {item.children.some(c => c.href === currentPath) ? '' : 'link-dark'}"
             >
               <div class="d-flex align-items-center">
@@ -32,13 +31,13 @@
                 {:else if item.icon}
                   <Icon name={item.icon}/>
                 {/if}
-                <span class="ms-2">{item.label}</span>
+                <span class="ms-3">{item.label}</span>
               </div>
             </a>
           </li>
           <ul
             id="{item.label}-collapse"
-            class="collapse nav flex-column ms-3 sub-menu"
+            class="collapse {item.children.some(c => c.href === currentPath) ? 'show' : ''} nav flex-column ms-3 sub-menu"
           >
             {#each item.children as child}
               <li class="nav-item">
@@ -49,7 +48,7 @@
                   {#if child.icon}
                     <Icon name={child.icon}/>
                   {/if}
-                  <span class="ms-2">{child.label}</span>
+                  <span class="ms-3">{child.label}</span>
                 </a>
               </li>
             {/each}
@@ -73,7 +72,7 @@
                 {:else if item.icon}
                   <Icon name={item.icon}/>
                 {/if}
-                <span class="ms-2">{item.label}</span>
+                <span class="ms-3">{item.label}</span>
               </div>
             </a>
           </li>
@@ -91,13 +90,13 @@
 }
 .sidebar {
   overflow: auto;
-  width: 280px;
+  width: 300px;
 }
 .sub-menu {
   visibility: visible;
   flex-direction: column;
 }
 .sub-menu li {
-  width: 229px;
+  width: 249px;
 }
 </style>
