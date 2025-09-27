@@ -13,7 +13,7 @@
   const currentPath = activeHref || window.location.pathname;
 </script>
 
-<div class="d-flex flex-column flex-shrink-0 bg-white border-end sidebar px-3">
+<div class="bg-white border-end sidebar px-3">
   <ul class="nav nav-pills flex-column mb-auto">
     {#each menuItemList as item }
       {#if showAppTitle || !item.isAppTitle}
@@ -37,7 +37,7 @@
           </li>
           <ul
             id="{item.label}-collapse"
-            class="collapse {item.children.some(c => c.href === currentPath) ? 'show' : ''} nav flex-column ms-3 sub-menu"
+            class="collapse {item.children.some(c => c.href === currentPath) ? 'show' : ''} flex-column ms-3 sub-menu"
           >
             {#each item.children as child}
               <li class="nav-item">
