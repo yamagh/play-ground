@@ -40,7 +40,7 @@ sbt test
 ## コードスタイル
 
 - **バックエンド (Scala/Java):** 標準的なPlay Frameworkの規約に従ってください。
-- **フロントエンド (Svelte/TypeScript):** このプロジェクトではTypeScript (`tsconfig.json`) とTailwind CSS (`tailwind.config.js`) を使用しています。既存のコーディングスタイルに従ってください。
+- **フロントエンド (Svelte/TypeScript):** このプロジェクトではTypeScript (`tsconfig.json`) を使用しています。既存のコーディングスタイルに従ってください。
 
 ## 主要なファイルの場所
 

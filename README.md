@@ -30,7 +30,6 @@
 -   **フロントエンド**
     -   [Svelte](https://svelte.dev/)
     -   [TypeScript](https://www.typescriptlang.org/)
-    -   [Tailwind CSS](https://tailwindcss.com/): CSSフレームワーク
     -   [Sveltestrap](https://sveltestrap.github.io/): Bootstrap 5 コンポーネント
     -   [Webpack](https://webpack.js.org/): モジュールバンドラ
 
@@ -117,7 +116,6 @@
 - `test` - テストコード
 - `package.json` - Node.js の依存関係とスクリプト
 - `webpack.config.js` - Webpack の設定ファイル
-- `tailwind.config.js` - Tailwind CSS の設定ファイル
 - `tsconfig.json` - TypeScript の設定ファイル
 
 ## ライセンス

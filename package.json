@@ -23,7 +23,6 @@
     "svelte-check": "4.2.2",
     "svelte-loader": "3.2.4",
     "svelte-preprocess": "6.0.3",
-    "tailwindcss": "^3.4.3",
     "ts-loader": "^8.0.12",
     "tsconfig-paths-webpack-plugin": "^3.3.0",
     "typescript": "5.8.3",

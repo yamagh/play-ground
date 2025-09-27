@@ -39,7 +39,7 @@
         <div class="fs-1 d-flex align-items-center">
           {#if backHref}
             <div class="back-button me-2 text-secondary">
-              <a href={backHref} ><Icon name="arrow-left-short" /></a>
+              <a href={backHref} class="link-secondary" ><Icon name="arrow-left-short" /></a>
             </div>
           {/if}
           {title}

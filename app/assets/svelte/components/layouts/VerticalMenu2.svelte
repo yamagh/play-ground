@@ -38,6 +38,8 @@
           <ul
             id="{item.label}-collapse"
             class="collapse {item.children.some(c => c.href === currentPath) ? 'show' : ''} flex-column ms-3 sub-menu"
+            style:padding-left=0
+            style:list-style=none
           >
             {#each item.children as child}
               <li class="nav-item">

@@ -20,7 +20,6 @@ for (const relativePath of glob.globSync('./app/assets/svelte/**/*.svelte')) {
     "bootstrap/dist/css/bootstrap.css",
     "bootstrap/dist/js/bootstrap.bundle.js",
     "bootstrap-icons/font/bootstrap-icons.css",
-    "./public/stylesheets/tailwindbase.css",
     `./${relativePath}`
   ]
 }

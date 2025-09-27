@@ -33,14 +33,14 @@
         <div class="dropdown-center">
           <Tooltip target="filter" placement="top">{filterTooltip}</Tooltip>
           <button
-            class="dropdown-toggle"
+            class="dropdown-toggle border-0 bg-body-tertiary"
             onclick={() => isOpen = !isOpen}
             aria-expanded={isOpen}
             type="button"
           >
-            <Icon name="sliders2" />
+            <Icon name="sliders2"/>
           </button>
-          <Dropdown bind:isOpen={isOpen} style="left: {30-width}px; top: 16px;" >
+          <Dropdown bind:isOpen={isOpen} style="left: {40-width}px; top: 20px;" >
             <DropdownMenu class="p-3 shadow">
               <div style:width={width-30}px>
                 {@render children()}

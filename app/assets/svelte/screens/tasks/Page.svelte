@@ -90,7 +90,7 @@
               </ButtonGroup>
             </Col>
           </Row>
-          <div class="mt-3 text-right">
+          <div class="mt-3 d-flex justify-content-end">
             <Button color="" outline on:click={handleClear} type="button" size="sm">Clear</Button>
             <Button color="primary" id="search" type="submit" size="sm" class="ms-2">
               <Icon name="search" class="me-1"/> Search

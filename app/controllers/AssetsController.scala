@@ -20,8 +20,7 @@ class AssetsController @Inject()(
       env.mode == Mode.Dev &&
         (
           file.name.startsWith("svelte_") ||
-            file.name.startsWith("svelte/") ||
-            file.name.startsWith("stylesheets/tailwindbase.css")
+            file.name.startsWith("svelte/")
           )
     ) {
       Future(Redirect(s"http://localhost:9001/assets/${file.name}"))
