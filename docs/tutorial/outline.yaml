@@ -1,0 +1,490 @@
+part1:
+  title: 第1部 基本の理解と環境構築
+  chapters:
+    - file: 01-アーキテクチャ概要.md
+      title: 1-1. アーキテクチャ概要
+      outline:
+        - section: 技術スタック
+          points:
+            - バックエンドの技術要素（Play Framework, Ebean, sbt）
+            - フロントエンドの技術要素（Svelte, webpack）
+            - 開発時に使用するデータベース（H2 Database）
+        - section: 主要ディレクトリの役割
+          points:
+            - 各主要ディレクトリ（app/controllers, app/models, app/repository, app/assets/svelte, conf, public）の役割
+        - section: リクエストから画面表示までの流れ
+          points:
+            - ブラウザからのリクエストがPlay Frameworkのroutes、Controller、Viewを経てHTMLとして返される流れ
+            - HTMLを受け取ったブラウザがJavaScriptを実行し、Svelteコンポーネントをマウントするまでの流れ
+    - file: 02-開発環境のセットアップ.md
+      title: 1-2. 開発環境のセットアップ
+      outline:
+        - section: 2つの主要プロセス
+          points:
+            - バックエンドサーバーを起動する `sbt run` コマンド
+            - フロントエンド開発サーバーを起動する `npm run hmr` コマンド
+        - section: プロセスの役割分担
+          points:
+            - `sbt run` がJava/Scalaのコンパイルとサーバー起動を担当
+            - `npm run hmr` がSvelte/TypeScriptのビルドと差分更新を担当
+        - section: HMR (Hot Module Replacement) の利点
+          points:
+            - コード変更時にブラウザをリロードすることなく、画面が即座に更新されるHMRのメリット
+    - file: 03-コラム-Play-Frameworkとは.md
+      title: 1-3. コラム Play Frameworkとは
+      outline:
+        - section: Play Frameworkの特徴
+          points:
+            - JVM上で動作することの利点
+            - ステートレスでスケーラブルなアーキテクチャ
+            - 高い生産性（ホットリロード、規約の設定）
+            - 型安全であること
+        - section: このプロジェクトにおける役割
+          points:
+            - Webサーバー、API提供、HTMLレンダリング、ビジネスロジック実行といった具体的な役割
+    - file: 04-コラム-Svelteとは.md
+      title: 1-4. コラム Svelteとは
+      outline:
+        - section: Svelteの最大の特徴 コンパイラであること
+          points:
+            - ランタイムライブラリではなく、ビルド時に最適化されたJavaScriptにコンパイルされる仕組み
+            - 高速なパフォーマンス（Virtual DOM不使用）と小さなバンドルサイズという利点
+        - section: Svelte 5 のリアクティビティ (Runes)
+          points:
+            - Svelte 5で導入された新しいリアクティビティの仕組み「Runes」
+            - $state, $derived を使ったシンプルで強力な状態管理
+        - section: このプロジェクトにおける役割
+          points:
+            - UIコンポーネントの構築、API連携、状態管理といった具体的な役割
+    - file: 05-コラム-ビルドの仕組み.md
+      title: 1-5. コラム ビルドの仕組み
+      outline:
+        - section: 役割分担 sbt と webpack
+          points:
+            - sbtがバックエンド、webpackがフロントエンドのビルドをそれぞれ担当する役割分担
+        - section: ビルド成果物の流れ
+          points:
+            - webpackがSvelte/TSをビルドし、`target`ディレクトリにJavaScriptファイルを出力する流れ
+            - Play Frameworkが`target`ディレクトリ内の成果物を静的アセットとしてブラウザに配信する仕組み
+part2:
+  title: 第2部 静的なページを作成する
+  chapters:
+    - file: 06-Svelteコンポーネントの作成.md
+      title: 2-1. Svelteコンポーネントの作成
+      outline:
+        - section: 画面用ディレクトリの作成
+          points:
+            - `app/assets/svelte/screens` 配下に新しい画面用のディレクトリを作成する手順
+        - section: Page.svelteの作成
+          points:
+            - 作成したディレクトリに `Page.svelte` ファイルを作成し、基本的なHTMLを記述する
+            - 各画面のルートコンポーネントが `Page.svelte` という名前である理由
+        - section: エントリーポイントについて
+          points:
+            - このプロジェクトでは `app/views/screen.scala.html` がエントリーポイントの役割を担うため、個別のマウント処理は不要であること
+    - file: 07-UIデザインとBootstrap.md
+      title: 2-2. UIデザインとBootstrap/Sveltestrap
+      outline:
+        - section: Bootstrapとは
+          points:
+            - Bootstrapの概要と、CSSフレームワークを利用するメリット（開発効率、デザイン統一性）
+        - section: Sveltestrapとは
+          points:
+            - BootstrapのコンポーネントをSvelteで使いやすくしたライブラリであること
+            - Sveltestrapのコンポーネントを使う利点（宣言的な記述、インタラクティブ機能との連携）
+        - section: コンポーネントへの適用
+          points:
+            - 作成した `Page.svelte` に、Sveltestrapの `Button` やBootstrapのCSSクラスを適用して見た目を整える手順
+    - file: 08-Play-ControllerとRouteの作成.md
+      title: 2-3. Play FrameworkのControllerとRouteを作成
+      outline:
+        - section: Controllerの作成
+          points:
+            - `app/controllers/web` に新しいControllerクラスを作成する手順
+            - `views.html.screen.render("...")` を呼び出してSvelteコンポーネントを描画するアクションメソッドを実装する方法
+        - section: routesの設定
+          points:
+            - `conf/routes` ファイルに新しい行を追加し、URL、HTTPメソッド、Controllerのアクションを紐付ける方法
+        - section: 動作確認
+          points:
+            - ブラウザで設定したURLにアクセスし、Svelteコンポーネントが表示されることを確認する
+    - file: 09-共通レイアウトの適用.md
+      title: 2-4. 共通レイアウトの適用
+      outline:
+        - section: レイアウトコンポーネントの役割
+          points:
+            - `LayoutSideMenu` と `PageContainer` がアプリケーションの共通レイアウトを提供するコンポーネントであること
+        - section: レイアウトの適用
+          points:
+            - `Page.svelte` のコンテンツを `LayoutSideMenu` と `PageContainer` で囲むように修正する
+        - section: propsによるデータ受け渡し
+          points:
+            - propsを使って、ページタイトルやメニュー項目といったデータをレイアウトコンポーネントに渡す方法
+        - section: snippet を使ったコンテンツの埋め込み
+          points:
+            - Svelte 5 の snippet 機能によって、レイアウトコンポーネント内にページ固有のコンテンツが埋め込まれる仕組み
+    - file: 10-UIの部品化.md
+      title: 2-5. UIを部品化する「コンポーネント」という考え方
+      outline:
+        - section: なぜコンポーネント化するのか？
+          points:
+            - 再利用性の向上、保守性の向上、可読性の向上といったコンポーネント化のメリット
+        - section: このプロジェクトにおけるコンポーネント
+          points:
+            - `screens`, `layouts`, `components` といったディレクトリの役割分担
+        - section: コンポーネント化の指針
+          points:
+            - どのような単位でコンポーネントに切り出すべきか（単一責任、再利用性など）のヒント
+part3:
+  title: 第3部 データベースの準備
+  chapters:
+    - file: 11-DBマイグレーション.md
+      title: 3-1. データベースの準備 (DBマイグレーション)
+      outline:
+        - section: Evolutionsとは
+          points:
+            - Play Frameworkに組み込まれたDBマイグレーション機能であること
+            - SQLスクリプトでスキーマ変更をバージョン管理する目的
+        - section: Evolutionsスクリプトの作成
+          points:
+            - `conf/evolutions/default/` に連番のSQLファイルを作成する手順
+            - "# --- !Ups" と "# --- !Downs" の役割
+        - section: マイグレーションの適用
+          points:
+            - 開発モードでブラウザに表示される適用画面からスクリプトを実行する手順
+    - file: 12-コラム-DBマイグレーションの重要性.md
+      title: 3-2. コラム なぜDBマイグレーションが重要なのか
+      outline:
+        - section: データベースの「バージョン管理」
+          points:
+            - コードとスキーマの変更履歴を同期させる重要性
+        - section: 環境間の一貫性の担保
+          points:
+            - 開発、テスト、本番環境でスキーマを一致させる必要性
+        - section: チーム開発の円滑化
+          points:
+            - 複数人でのスキーマ変更を安全に管理できる利点
+        - section: 安全なロールバック
+          points:
+            - "!Downs" を記述しておくことの重要性
+    - file: 13-コラム-H2データベースとコンソール.md
+      title: 3-3. コラム H2データベースとコンソール
+      outline:
+        - section: H2データベースとは
+          points:
+            - 開発用途で使われる軽量なインメモリDBであること
+        - section: H2コンソールの使い方
+          points:
+            - `application.conf` の設定を確認し、ブラウザからコンソールにアクセスする手順
+            - SQLを直接実行してテーブルの内容を確認する方法
+part4:
+  title: 第4部 一覧画面を作成する (Read)
+  chapters:
+    - file: 14-データ取得APIの実装.md
+      title: 4-1. データ取得APIの実装 (バックエンド)
+      outline:
+        - section: Repository層の作成
+          points:
+            - DB操作をカプセル化するRepository層の役割
+            - EbeanのFinderを利用したデータ取得メソッドの実装
+        - section: Controller (API) の作成
+          points:
+            - DI (Dependency Injection) を使ってRepositoryを注入する
+            - 取得したモデルのリストをJSON形式で返すアクションを実装
+        - section: routesの設定
+          points:
+            - GET /api/tasks のようなエンドポイントをControllerのアクションに紐付ける
+    - file: 15-コラム-REST-API設計の基本.md
+      title: 4-2. コラム REST API設計の基本
+      outline:
+        - section: RESTの原則
+          points:
+            - リソース中心のURI設計 (例: /tasks, /tasks/1)
+            - HTTPメソッド (GET, POST, PUT, DELETE) の適切な利用
+            - ステートレス性
+        - section: このプロジェクトにおけるAPI設計
+          points:
+            - /api プレフィックスによるAPIエンドポイントの明確化
+            - JSONをデータ交換フォーマットとして利用
+    - file: 16-コラム-Ebeanを使ったDB操作.md
+      title: 4-3. コラム Ebeanを使ったDB操作
+      outline:
+        - section: Ebeanとは
+          points:
+            - Play Frameworkに標準で組み込まれているORM (Object-Relational Mapping)
+            - モデルクラスとDBのテーブルを対応付ける役割
+        - section: 基本的なCRUD操作
+          points:
+            - save(), update(), delete(), findOne() などの基本的なメソッドの紹介
+        - section: Finderの活用
+          points:
+            - 型安全なクエリを構築するためのFinderオブジェクトの使い方
+            - where(), orderBy(), setMaxRows() などを組み合わせた柔軟なデータ取得
+    - file: 17-SvelteからAPIを呼び出す.md
+      title: 4-4. APIを呼び出して画面に表示 (フロントエンド)
+      outline:
+        - section: APIクライアントの準備
+          points:
+            - fetch API をラップした共通APIクライアント (utils/api.ts) の役割
+            - リクエストヘッダーへのCSRFトークンの自動付与
+            - バックエンドからのエラーレスポンスをPromiseの例外としてスローする仕組み
+        - section: SvelteコンポーネントからのAPI呼び出し
+          points:
+            - onMount ライフサイクル関数内でAPIを呼び出す
+            - $state を使ってリアクティブな状態を定義する
+            - await を使って非同期にデータを取得し、$state の状態を更新する
+        - section: 取得したデータの表示
+          points:
+            - {#each} ブロックを使って、取得したデータのリストをテーブル形式で表示する
+    - file: 18-コラム-非同期処理.md
+      title: 4-5. コラム 非同期処理とPromise/async/await
+      outline:
+        - section: なぜ非同期処理が必要か
+          points:
+            - API通信など時間のかかる処理中にUIのスムーズな動作を維持するため
+        - section: Promiseとは
+          points:
+            - 非同期処理の最終的な結果を表すオブジェクト
+            - pending, fulfilled, rejected の3つの状態
+        - section: async/awaitによる直感的な記述
+          points:
+            - Promiseを同期処理のような構文で書けるようにする糖衣構文
+    - file: 19-応用-検索とページネーション.md
+      title: 4-6. 応用 検索とページネーション機能の実装
+      outline:
+        - section: バックエンドの機能拡張
+          points:
+            - Repositoryに検索条件やページ番号を引数に取るメソッドを追加
+            - Controllerでクエリパラメータを受け取り、Repositoryに渡す
+        - section: フロントエンドの機能拡張
+          points:
+            - 検索キーワード入力用のUIと、ページネーション用のUIコンポーネントを作成
+            - ユーザーの操作に応じて、パラメータ付きでAPIを再呼び出しする
+part5:
+  title: 第5部 登録・更新機能の実装 (Create/Update)
+  chapters:
+    - file: 20-登録・更新APIの実装.md
+      title: 5-1. 登録・更新APIの実装 (バックエンド)
+      outline:
+        - section: フォームデータの受け取り
+          points:
+            - request.body.asJson を使ってリクエストボディをJsonNodeとして取得
+            - Json.fromJson を使ってJSONをモデルオブジェクトに変換
+        - section: 登録・更新処理の実装
+          points:
+            - Repositoryにsave/updateメソッドを追加
+            - IDの有無で新規登録か更新かを判定するロジック
+            - 成功時、HTTP 201 Created と最新のTaskオブジェクトをレスポンスとして返す
+        - section: routesの設定
+          points:
+            - POST /api/tasks (登録) と PUT /api/tasks/:id (更新) をControllerに紐付ける
+    - file: 21-コラム-DIの基本.md
+      title: 5-2. コラム DI (Dependency Injection) の基本
+      outline:
+        - section: DIとは何か？
+          points:
+            - クラス間の依存関係を外部から注入する設計パターン
+            - 疎結合になり、テスト容易性が向上するメリット
+        - section: Play FrameworkにおけるDI
+          points:
+            - Guiceを標準のDIコンテナとして利用
+            - @Inject アノテーションを使った依存性の注入
+    - file: 22-Svelteで登録・更新フォームを作成.md
+      title: 5-3. 登録・更新フォームの実装 (フロントエンド)
+      outline:
+        - section: フォーム画面の作成
+          points:
+            - 登録・更新画面用のSvelteコンポーネントを作成
+            - SveltestrapのForm, Input, Labelなどを使ってUIを構築
+        - section: データの双方向バインディング
+          points:
+            - bind:value を使ってフォームの入力値とコンポーネントの状態を同期
+        - section: フォームの送信処理
+          points:
+            - on:submit イベントでAPIを呼び出し、フォームデータを送信
+    - file: 23-フィードバックメッセージの表示.md
+      title: 5-4. フィードバックメッセージの表示
+      outline:
+        - section: Svelteストアの活用
+          points:
+            - アプリケーション全体で状態を共有するためのSvelteストアの役割
+            - メッセージ表示用のストアを作成 (message.ts)
+        - section: メッセージの表示とクリア
+          points:
+            - API成功時にストアにメッセージをセット
+            - レイアウトコンポーネントでストアを購読し、メッセージ（Alert）を表示
+            - 一定時間経過後にメッセージを自動的に消す処理
+    - file: 24-メッセージ管理.md
+      title: 5-5. メッセージ管理
+      outline:
+        - section: Play Frameworkのメッセージ管理機能
+          points:
+            - conf/messages.ja のようなファイルでメッセージキーと文言を管理
+            - ControllerでMessagesApiを使ってメッセージを取得する方法
+        - section: フロントエンドでのメッセージ管理
+          points:
+            - `conf/messages.ja` を更新後、`npm run messages` を実行すると `app/assets/svelte/generated/messages.ts` が自動生成される仕組み
+            - バックエンドから渡されたメッセージを表示する
+            - i18n.ts のようなファイルでフロントエンド固有のメッセージを管理する方法
+    - file: 25-エラーハンドリング.md
+      title: 5-6. エラーハンドリング
+      outline:
+        - section: バックエンドのエラーハンドリング
+          points:
+            - try-catchやrecoverを使った例外処理
+            - エラー発生時に適切なHTTPステータスコード (400, 500など) とエラーメッセージを返す
+        - section: フロントエンドのエラーハンドリング
+          points:
+            - API呼び出しをtry-catchで囲む
+            - エラーレスポンスを受け取り、メッセージストアにエラー情報を表示
+part6:
+  title: 第6部 バリデーションの実装
+  chapters:
+    - file: 26-バックエンドでのバリデーション.md
+      title: 6-1. バックエンドでのバリデーション (Play Framework)
+      outline:
+        - section: Play Frameworkのバリデーション機能
+          points:
+            - @Constraints アノテーションを使ったモデルレベルのバリデーション
+            - formFactory を使ったフォームデータのバリデーション
+            - hasErrors() でバリデーション結果を確認
+        - section: バリデーションエラーのレスポンス
+          points:
+            - バリデーションエラーが発生した場合、badRequest() (400) を返す
+            - エラーメッセージをJSON形式でフロントエンドに返す方法
+    - file: 27-フロントエンドでのバリデーション.md
+      title: 6-2. フロントエンドでのバリデーション (Svelte)
+      outline:
+        - section: リアルタイムバリデーション
+          points:
+            - on:input や on:blur イベントを使って、ユーザーの入力中にバリデーションを実行
+            - 正規表現やカスタム関数を使った入力値のチェック
+        - section: バリデーション結果の表示
+          points:
+            - エラーがある場合に、入力フィールドの下にエラーメッセージを表示する
+            - CSSクラスを動的に適用して、エラーのあるフィールドのスタイルを変更する
+        - section: バックエンドとの連携
+          points:
+            - フロントエンドのバリデーションを通過しても、最終的にはバックエンドのバリデーション結果を正とする
+            - バックエンドから返されたエラーメッセージを表示する方法
+part7:
+  title: 第7部 削除機能の実装 (Delete)
+  chapters:
+    - file: 28-データ削除APIの実装.md
+      title: 7-1. データ削除APIの実装 (バックエンド)
+      outline:
+        - section: 削除処理の実装
+          points:
+            - Repositoryにレコードを論理削除するメソッドを追加
+            - IDの有無で対象のレコードを検索し、存在すれば `isActive` フラグを `false` に更新する
+        - section: routesの設定
+          points:
+            - DELETE /api/tasks/:id をControllerのアクションに紐付ける
+    - file: 29-Svelteから削除機能を呼び出す.md
+      title: 7-2. 削除ボタンと確認ダイアログの実装 (フロントエンド)
+      outline:
+        - section: 削除ボタンの設置
+          points:
+            - 一覧画面の各行に削除ボタンを追加
+        - section: 確認ダイアログの実装
+          points:
+            - 誤操作を防ぐため、削除実行前にモーダルウィンドウで確認メッセージを表示
+            - SveltestrapのModalコンポーネントの利用
+        - section: 削除APIの呼び出し
+          points:
+            - ユーザーが確認ダイアログで「はい」を選択したら、DELETEメソッドでAPIを呼び出す
+            - 削除成功後、画面のリストを再読み込みするか、対象の行をUIから削除する
+part8:
+  title: 第8部 CSVダウンロード機能の実装
+  chapters:
+    - file: 30-CSVダウンロードAPIの実装.md
+      title: 8-1. CSVダウンロードAPIの実装
+      outline:
+        - section: CSV生成ロジックの実装
+          points:
+            - Service層やHelperクラスにCSV文字列を生成するロジックを実装
+            - ヘッダー行とデータ行の作成
+        - section: Controllerでのファイル返却
+          points:
+            - 生成したCSV文字列をByte配列に変換
+            - ファイル名やContent-Dispositionヘッダーの設定を共通化した `CsvResult` ヘルパーを使ってレスポンスを返す
+        - section: routesの設定
+          points:
+            - GET /api/tasks/export をControllerのアクションに紐付ける
+    - file: 31-Svelteにダウンロードボタンを設置.md
+      title: 8-2. Svelteにダウンロードボタンを設置
+      outline:
+        - section: ダウンロードボタンの設置
+          points:
+            - 一覧画面にCSVダウンロードボタンを追加
+        - section: ダウンロードの実行
+          points:
+            - Svelteの `$derived` を使い、検索フィルターの状態に応じてダウンロードURLを動的に生成する仕組み
+            - `URLSearchParams` を使ってクエリパラメータを構築する方法
+            - download属性でブラウザにダウンロードを強制させる方法
+part9:
+  title: 第9部 CSVインポート機能の実装
+  chapters:
+    - file: 32-CSVインポートAPIの実装.md
+      title: 9-1. CSVインポートAPIの実装
+      outline:
+        - section: ファイルアップロードの処理
+          points:
+            - multipart/form-data 形式で送信されたファイルを受け取る
+            - ファイルアップロード処理を共通化した `CsvImportHandler` を利用
+        - section: CSVのパースとデータ登録
+          points:
+            - Service層でバリデーションエラーを検出し、エラーメッセージのリストをControllerに返す仕組み
+            - Controllerでエラーを受け取り、badRequest (400) と共にエラー内容をJSON形式でレスポンスする
+            - Repositoryを使ってデータベースに一括登録（バルクインサート）
+        - section: routesの設定
+          points:
+            - POST /api/tasks/import をControllerのアクションに紐付ける
+    - file: 33-CSVインポートUIの実装.md
+      title: 9-2. CSVインポートUIの実装
+      outline:
+        - section: UIコンポーネントの作成
+          points:
+            - ファイル選択ボタンとアップロードボタンを持つモーダルウィンドウを作成 (CsvImportModalの利用)
+            - SveltestrapのInput (type="file") とModalを利用
+        - section: ファイルの送信
+          points:
+            - 選択されたファイルをFormDataオブジェクトに追加
+            - fetch APIを使って、multipart/form-dataとしてバックエンドに送信
+        - section: 結果のフィードバック
+          points:
+            - インポート結果（成功件数）をメッセージストアに表示
+            - バックエンドから返されたJSON形式のエラーメッセージをパースし、モーダル内にリスト表示する方法
+            - 成功したら一覧を再読み込みする
+part10:
+  title: 第10部 まとめ
+  chapters:
+    - file: 34-学習の振り返りと次のステップ.md
+      title: 10-1. 学習の振り返りと次のステップ
+      outline:
+        - section: このチュートリアルで学んだこと
+          points:
+            - Play FrameworkとSvelteを連携させたMPA開発の全体像
+            - CRUD機能の実装サイクル
+            - DBマイグレーション、API設計、バリデーションなどの周辺技術
+        - section: さらなる学習のために
+          points:
+            - 認証・認可機能の実装
+            - テストコードの作成
+            - 本番環境へのデプロイ
+            - パフォーマンスチューニング
+appendix:
+  title: 付録
+  chapters:
+    - file: 付録2-Play-Framework開発Tips.md
+      title: A-2. Play Framework開発Tips
+      outline:
+        - section: sbt-revolverの活用
+          points:
+            - `~reStart` コマンドによる自動リロードの高速化
+        - section: デバッグモードでの実行
+          points:
+            - `sbt -jvm-debug 9999 run` で起動し、IDEからリモートデバッグする方法
+        - section: 設定ファイルの分割
+          points:
+            - `application.conf` に `include "local.conf"` を追加して、ローカル環境固有の設定を分離する方法

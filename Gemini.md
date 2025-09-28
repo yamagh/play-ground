@@ -13,6 +13,9 @@
 - Java Development Kit (JDK)
 - sbt (The Scala Build Tool)
 - Node.js と npm
+- Svelte v5
+- TypeScript
+- Play Framework v3
 
 ### ビルドと実行
 
