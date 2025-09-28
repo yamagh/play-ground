@@ -16,7 +16,7 @@ class AssetsController @Inject()(
     extends Assets(errorHandler, meta, env) {
 
   override def versioned(path: String, file: Assets.Asset): Action[AnyContent] = Action.async { req =>
-    println(file.name)
+    // println(file.name)
     if (
       env.mode == Mode.Dev &&
         (

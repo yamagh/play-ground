@@ -18,6 +18,7 @@
 </script>
 
 <div class="vh-100 d-flex justify-content-center align-items-center">
+  <div class="login-bg"></div>
   <div class="mx-auto" style:width=25rem>
     <Card class="shadow p-3">
       <CardBody>
@@ -45,4 +46,15 @@
   :global(body) {
     background-color: var(--bs-light);
   }
+.login-bg {
+  background-image: url('/assets/images/login-bg-1.jpg');
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  position: fixed;
+  z-index: -1;
+}
 </style>

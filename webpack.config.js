@@ -1,10 +1,12 @@
 "use strict";
 
 const webpack = require('webpack');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const sveltePreprocess = require("svelte-preprocess");
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const pathModule = require("path");
 const glob = require('glob');
+const fs = require('fs');
 
 let entry = {}
 for (const relativePath of glob.globSync('./app/assets/svelte/**/*.svelte')) {
@@ -48,6 +50,11 @@ class CamelCaseNamePlugin {
   }
 }
 
+// Find tsconfig.json whether running from root or app/assets
+const tsconfigPath = [
+  pathModule.resolve(process.cwd(), 'tsconfig.json'),
+  pathModule.resolve(process.cwd(), '../../tsconfig.json')
+].find(p => fs.existsSync(p));
 
 const config = {
   mode: 'development',
@@ -55,17 +62,13 @@ const config = {
   stats: 'minimal',
   entry,
   resolve: {
+    plugins: [new TsconfigPathsPlugin({
+      configFile: tsconfigPath,
+      extensions: ['.mjs', '.js', '.svelte', '.ts']
+    })],
     extensions: ['.mjs', '.js', '.svelte', '.ts'],
     mainFields: ['svelte', 'browser', 'module', 'main'],
-    conditionNames: ['svelte', 'browser'],
-    alias: {
-      '@': pathModule.resolve(__dirname, 'app/assets/svelte'),
-      'components': pathModule.resolve(__dirname, 'app/assets/svelte/components'),
-      'layouts': pathModule.resolve(__dirname, 'app/assets/svelte/layouts'),
-      'screens': pathModule.resolve(__dirname, 'app/assets/svelte/screens'),
-      'stores': pathModule.resolve(__dirname, 'app/assets/svelte/stores'),
-      'utils': pathModule.resolve(__dirname, 'app/assets/svelte/utils'),
-    }
+    conditionNames: ['svelte', 'browser']
   },
   module: {
     rules: [
@@ -97,7 +100,8 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1
+              importLoaders: 1,
+              url: false
             }
           },
           'postcss-loader'
@@ -159,12 +163,11 @@ module.exports = (env, argv) => {
   if (argv.mode === 'production') {
     console.log('Webpack for production');
     config.devtool = false;
-    config.performance.maxAssetSize = 250000;
-    config.performance.maxEntrypointSize = 250000;
+    config.performance.maxAssetSize = 20000000;
+    config.performance.maxEntrypointSize = 20000000;
     config.optimization = (config.optimization || {});
   } else if (argv.mode === 'development') {
     console.log('Webpack for development')
-
     if (process.env.ENABLE_HMR) {
       console.log('Enable HMR')
       for (const rule of config.module.rules) {
