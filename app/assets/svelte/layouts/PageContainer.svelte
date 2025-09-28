@@ -36,7 +36,7 @@
     {/if}
     {#if title || actions}
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="fs-1 d-flex align-items-center">
+        <div class="fs-1 d-flex align-items-center text-nowrap">
           {#if backHref}
             <div class="back-button me-2 text-secondary">
               <a href={backHref} class="link-secondary" ><Icon name="arrow-left-short" /></a>
@@ -73,9 +73,16 @@
   footer {
     width: 100%;
   }
-  .back-button:hover {
+  .back-button {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .back-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 </style>

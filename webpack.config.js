@@ -17,9 +17,6 @@ for (const relativePath of glob.globSync('./app/assets/svelte/**/*.svelte')) {
   entry[key] = [
     // See why we need reload=true for Svelte 5: https://github.com/sveltejs/svelte-loader/issues/250
     "webpack-hot-middleware/client?path=http://localhost:9001/__webpack_hmr&timeout=5000&reload=true",
-    "bootstrap/dist/css/bootstrap.css",
-    "bootstrap/dist/js/bootstrap.bundle.js",
-    "bootstrap-icons/font/bootstrap-icons.css",
     `./${relativePath}`
   ]
 }
@@ -134,6 +131,18 @@ const config = {
     publicPath: '/assets/',
     library: '[camel-case-name]',
     filename: '[name].js',
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendor",
+          chunks: "all",
+        },
+      },
+    },
   },
   performance: {
     hints: 'error',

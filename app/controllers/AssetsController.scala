@@ -16,11 +16,14 @@ class AssetsController @Inject()(
     extends Assets(errorHandler, meta, env) {
 
   override def versioned(path: String, file: Assets.Asset): Action[AnyContent] = Action.async { req =>
+    println(file.name)
     if (
       env.mode == Mode.Dev &&
         (
           file.name.startsWith("svelte_") ||
-            file.name.startsWith("svelte/")
+            file.name.startsWith("svelte/") ||
+            file.name == "vendor.js" ||
+            file.name == "runtime.js"
           )
     ) {
       Future(Redirect(s"http://localhost:9001/assets/${file.name}"))
