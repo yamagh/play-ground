@@ -175,8 +175,10 @@ part3:
             - 開発用途で使われる軽量なインメモリDBであること
         - section: H2コンソールの使い方
           points:
-            - `application.conf` の設定を確認し、ブラウザからコンソールにアクセスする手順
-            - SQLを直接実行してテーブルの内容を確認する方法
+            - sbt コンソールから `h2-browser` で H2 Console （http://localhost:8082/login.jsp）が起動すること
+            - ログイン方法。`ドライバクラス=org.postgresql.Driver`、`JDBC URL=jdbc:h2:mem:play`、`ユーザ名=sa`、`パスワード=空欄`
+          references:
+            - https://www.playframework.com/documentation/3.0.x/Developing-with-the-H2-Database#H2-Browser
 part4:
   title: 第4部 一覧画面を作成する (Read)
   chapters:

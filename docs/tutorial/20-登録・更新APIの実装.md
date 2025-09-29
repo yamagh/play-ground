@@ -137,7 +137,30 @@ PUT     /api/tasks/:id              controllers.api.TaskController.update(id: Lo
 
 ### 動作確認
 
-curlやPostmanのようなAPIテストツールを使って、動作を確認してみましょう。
+`curl`や`Postman`のようなAPIテストツールを使って、動作を確認してみましょう。
+
+このまま `curl` でPOSTリクエストを送信すると、CSRF保護機能により `403 Forbidden` エラーが返ってきます。これは、Play Frameworkがデフォルトで有効にしているセキュリティ機能が正しく動作している証拠です。
+
+API単体の動作確認を簡単に行うために、**一時的に**CSRF保護を無効にしてみましょう。
+
+`conf/routes` を以下のように変更してください。
+
+**`conf/routes` (動作確認用)**
+```
+# タスク登録API (CSRF保護を一時的に無効化)
++ nocsrf
+POST    /api/tasks                  controllers.api.TaskController.create(request: Request)
+
+# タスク更新API (CSRF保護を一時的に無効化)
++ nocsrf
+PUT     /api/tasks/:id              controllers.api.TaskController.update(id: Long, request: Request)
+```
+- **`+ nocsrf`**: この修飾子をルートの前に追加すると、そのルートに対するCSRF保護が無効になります。
+
+この状態で、以下のリクエストを送信します。
+
+> **注意**
+> `+ nocsrf` は、あくまで `curl` のようなツールでの動作確認を容易にするための一時的な措置です。この後のステップでSvelteフロントエンドからAPIを呼び出す際には、PlayのCSRF保護の仕組みを利用します。**動作確認が終わったら、必ず `+ nocsrf` の行は削除してください。**
 
 **新規登録 (POST)**
 - URL: `http://localhost:9000/api/tasks`
@@ -164,6 +187,8 @@ curlやPostmanのようなAPIテストツールを使って、動作を確認し
   }
   ```
 成功すれば、更新後のTaskオブジェクトが返ってきます。
+
+**動作確認が終わったら、`conf/routes` に追加した `+ nocsrf` の2行を忘れずに削除しておきましょう。**
 
 ---
 
