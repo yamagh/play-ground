@@ -6,7 +6,7 @@
 
   let { showMessage = true } = $props<{ showMessage?: boolean }>();
 
-  let messages: Message[] = [];
+  let messages = $state<Message[]>([]);
   const timers = new Map<number, number>();
 
   const removeMessage = (id: number) => {

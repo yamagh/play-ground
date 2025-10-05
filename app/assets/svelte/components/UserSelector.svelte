@@ -3,11 +3,11 @@
   import UserSearchModal from '@/components/UserSearchModal.svelte';
   import type { User } from '@/components/api';
 
-  let { selectedUsers = $bindable<User[]>([]) } = $props();
+  let { selectedUsers = $bindable<User[]>([]), id = '' } = $props();
   let isUserSearchModalOpen = $state(false);
 </script>
 
-<Button color="secondary" on:click={() => isUserSearchModalOpen = true}>
+<Button {id} color="secondary" on:click={() => isUserSearchModalOpen = true}>
   {#if selectedUsers.length > 0}
     {selectedUsers.length} users selected
   {:else}

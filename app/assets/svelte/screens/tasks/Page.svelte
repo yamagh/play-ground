@@ -101,9 +101,9 @@
             </Col>
           </Row>
           <Row>
-            <Col xs=3><label class="col-form-label">Owner</label></Col>
+            <Col xs=3><label class="col-form-label" for="owner-selector">Owner</label></Col>
             <Col>
-              <UserSelector bind:selectedUsers />
+              <UserSelector id="owner-selector" bind:selectedUsers />
             </Col>
           </Row>
           <div class="mt-3 d-flex justify-content-end">

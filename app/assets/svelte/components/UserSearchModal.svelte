@@ -71,8 +71,6 @@
     }
     selectedUserMap = new Map(JSON.parse(JSON.stringify(Array.from(selectedUserMap))));
   }
-
-  $inspect(selectedUserMap).with(console.trace)
 </script>
 
 <Modal {isOpen} toggle={() => isOpen = !isOpen} size="lg">
@@ -105,8 +103,6 @@
                 checked={selectedUserMap.has(user.id)}
                 onchange={(e) => handleCheckboxChange(e, user)}
               />
-              {selectedUserMap.has(user.id)}
-              {user.id}
             </td>
             <td>{user.name}</td>
             <td>{user.email}</td>
