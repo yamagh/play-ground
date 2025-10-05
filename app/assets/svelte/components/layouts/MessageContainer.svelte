@@ -51,7 +51,7 @@
 </script>
 
 <div
-  class="top-5 start-50 translate-middle-x position-fixed m--3"
+  class="top-0 start-50 translate-middle-x position-fixed m-3"
   style="z-index: 1100"
 >
   {#each messages as msg (msg.id)}
