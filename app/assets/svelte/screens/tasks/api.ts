@@ -18,6 +18,7 @@ export type Page<T> = PagedResult<T>;
 export interface SearchCondition {
   title?: string;
   statuses?: string[];
+  ownerIds?: number[];
 }
 
 export const findTasks = safeRun(async (page: number, perPage: number, condition: SearchCondition = {}): Promise<Page<Task> | null> => {
@@ -30,6 +31,9 @@ export const findTasks = safeRun(async (page: number, perPage: number, condition
   }
   if (condition.statuses && condition.statuses.length > 0) {
     condition.statuses.forEach(s => params.append("statuses", s));
+  }
+  if (condition.ownerIds && condition.ownerIds.length > 0) {
+    condition.ownerIds.forEach(id => params.append("ownerIds", id.toString()));
   }
   return await get<PagedResult<Task>>(`/api/tasks?${params.toString()}`);
 });

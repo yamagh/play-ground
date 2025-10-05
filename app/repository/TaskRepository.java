@@ -23,7 +23,7 @@ public class TaskRepository {
         this.executionContext = executionContext;
     }
 
-    public CompletionStage<PagedList<Task>> find(int page, int perPage, String title, List<String> statuses) {
+    public CompletionStage<PagedList<Task>> find(int page, int perPage, String title, List<String> statuses, List<Long> ownerIds) {
         return supplyAsync(() -> {
             Query<Task> query = DB.find(Task.class);
             ExpressionList<Task> where = query.where();
@@ -33,6 +33,9 @@ public class TaskRepository {
             }
             if (statuses != null && !statuses.isEmpty()) {
                 where.in("status", statuses);
+            }
+            if (ownerIds != null && !ownerIds.isEmpty()) {
+                where.in("owner.id", ownerIds);
             }
             return query
                 .fetch("owner")

@@ -1,11 +1,15 @@
 package services;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.AppUser;
+import play.libs.Json;
 import repository.AppUserRepository;
 
 import javax.inject.Inject;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 public class AppUserService {
 
@@ -26,6 +30,14 @@ public class AppUserService {
                 }
             }
             return Optional.empty();
+        });
+    }
+    public CompletionStage<ObjectNode> find(String q, int page, int perPage) {
+        return appUserRepository.find(q, page, perPage).thenApply(pagedList -> {
+            ObjectNode result = Json.newObject();
+            result.put("total", pagedList.getTotalCount());
+            result.set("items", Json.toJson(pagedList.getList()));
+            return result;
         });
     }
 }

@@ -12,11 +12,15 @@
   import SearchBoxWithFilters from '@/components/SearchBoxWithFilters/SearchBoxWithFilters.svelte';
   import PaginationWithTotal from '@/components/common/PaginationWithTotal.svelte';
   import CsvImportModal from '@/components/CsvImportModal.svelte';
+  import UserSelector from '@/components/UserSelector.svelte';
+  import type { User } from '@/components/api';
   import { onMount } from "svelte";
   import { findTasks, type Task } from "./api";
 
   let title = $state("");
   let statuses = $state<string[]>([]);
+  let ownerIds = $state<number[]>([]);
+  let selectedUsers = $state<User[]>([]);
   let tasks = $state<Task[]>([]);
   let filterIsOpen = $state(false);
   let total = $state(0);
@@ -32,6 +36,9 @@
     if (statuses && statuses.length > 0) {
       statuses.forEach(s => params.append("statuses", s));
     }
+    if (ownerIds && ownerIds.length > 0) {
+      ownerIds.forEach(id => params.append("ownerIds", id.toString()));
+    }
     return `/api/tasks/export?${params.toString()}`;
   });
 
@@ -40,7 +47,7 @@
   });
 
   async function loadTasks() {
-    const result = await findTasks(page, perPage, { title, statuses });
+    const result = await findTasks(page, perPage, { title, statuses, ownerIds });
     if (result) {
       tasks = result.items;
       total = result.total;
@@ -55,12 +62,15 @@
   function handleSearch() {
     filterIsOpen = false;
     page = 1;
+    ownerIds = selectedUsers.map(u => u.id);
     loadTasks();
   }
 
   function handleClear() {
     title = "";
     statuses = [];
+    ownerIds = [];
+    selectedUsers = [];
   }
 
   function handleImported() {
@@ -88,6 +98,12 @@
                 <input type="checkbox" class="btn-check" id="btn-check-3" autocomplete="off" value="Done" bind:group={statuses}>
                 <label class="btn btn-outline-primary" for="btn-check-3">Done</label>
               </ButtonGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs=3><label class="col-form-label">Owner</label></Col>
+            <Col>
+              <UserSelector bind:selectedUsers />
             </Col>
           </Row>
           <div class="mt-3 d-flex justify-content-end">
@@ -139,8 +155,8 @@
   </PageContainer>
 </LayoutSideMenu3>
 
-<CsvImportModal 
-  bind:isOpen={isImportModalOpen} 
+<CsvImportModal
+  bind:isOpen={isImportModalOpen}
   onImported={handleImported}
   url="/api/tasks/import"
   successMessage={(result) => `${result.count} tasks have been successfully imported.`}

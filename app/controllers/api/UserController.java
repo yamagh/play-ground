@@ -5,12 +5,21 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
+import services.AppUserService;
 
+import javax.inject.Inject;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
 public class UserController extends Controller {
+
+  private final AppUserService appUserService;
+
+  @Inject
+  public UserController(AppUserService appUserService) {
+    this.appUserService = appUserService;
+  }
 
   public CompletionStage<Result> me(Http.Request request) {
     Optional<String> userId = request.session().get("userId");
@@ -27,5 +36,14 @@ public class UserController extends Controller {
     result.put("name", name.get());
 
     return CompletableFuture.completedFuture(ok(result));
+  }
+
+  public CompletionStage<Result> find(Http.Request request) {
+    String q = request.queryString("q").orElse("");
+    int page = request.queryString("page").map(Integer::parseInt).orElse(1);
+    int perPage = request.queryString("perPage").map(Integer::parseInt).orElse(10);
+    return appUserService.find(q, page, perPage).thenApply(result ->
+        ok(result)
+    );
   }
 }

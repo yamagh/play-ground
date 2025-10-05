@@ -1,11 +1,13 @@
 package repository;
 
 import io.ebean.DB;
+import io.ebean.PagedList;
 import models.AppUser;
 
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
@@ -38,6 +40,20 @@ public class AppUserRepository {
 
     public CompletionStage<Optional<AppUser>> findById(Long id) {
         return supplyAsync(() -> DB.find(AppUser.class).where().eq("id", id).findOneOrEmpty(), executionContext);
+    }
+
+    public CompletionStage<PagedList<AppUser>> find(String q, int page, int perPage) {
+        return supplyAsync(() ->
+            DB.find(AppUser.class)
+                .where()
+                .or()
+                .ilike("name", "%" + q + "%")
+                .ilike("email", "%" + q + "%")
+                .endOr()
+                .setFirstRow((page - 1) * perPage)
+                .setMaxRows(perPage)
+                .findPagedList()
+        , executionContext);
     }
 
 }

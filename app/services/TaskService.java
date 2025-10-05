@@ -31,8 +31,8 @@ public class TaskService {
         this.csvService = csvService;
     }
 
-    public CompletionStage<ObjectNode> find(int page, int perPage, String title, List<String> statuses) {
-        return taskRepository.find(page, perPage, title, statuses).thenApply(pagedList -> {
+    public CompletionStage<ObjectNode> find(int page, int perPage, String title, List<String> statuses, List<Long> ownerIds) {
+        return taskRepository.find(page, perPage, title, statuses, ownerIds).thenApply(pagedList -> {
             ObjectNode result = Json.newObject();
             result.put("total", pagedList.getTotalCount());
             result.set("items", Json.toJson(pagedList.getList().stream().map(task -> {

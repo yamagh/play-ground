@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 public class TaskController extends Controller {
 
@@ -38,8 +39,11 @@ public class TaskController extends Controller {
         List<String> statuses = Optional.ofNullable(request.queryString().get("statuses"))
             .map(Arrays::asList)
             .orElse(Collections.emptyList());
+        List<Long> ownerIds = Optional.ofNullable(request.queryString().get("ownerIds"))
+            .map(ids -> Arrays.stream(ids).map(Long::parseLong).collect(Collectors.toList()))
+            .orElse(Collections.emptyList());
 
-        return taskService.find(page, perPage, title, statuses)
+        return taskService.find(page, perPage, title, statuses, ownerIds)
             .thenApply(result -> ok(result));
     }
 
